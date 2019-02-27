@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<res>
+
+    <drawable>
+        <png/>
+        <jpg/>
+        <gif/>
+        <bmp/>
+    </drawable>
+
+    <layout>
+        <fxml/>
+        <xml/>
+        <html/>
+        <xhtml/>
+    </layout>
+
+    <raw>
+        <json toString="true"/>
+    </raw>
+
+    <value>
+        <bool/>
+        <color/>
+        <integer/>
+        <string/>
+        <style>
+            <css/>
+        </style>
+        <numeric type="float">11.11f</numeric>
+    </value>
+
+</res>

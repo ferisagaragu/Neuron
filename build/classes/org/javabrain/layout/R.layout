@@ -1,0 +1,61 @@
+package res;
+
+import java.util.Map;
+import java.util.HashMap;
+
+${import}
+
+public class R {
+    
+    private static Map<String,Object> val = new HashMap();
+
+    public static Object val(String key) {
+        return val.get(key);
+    }
+
+    public static void val(String key, Object value) {
+        val.put(key, value);
+    }
+    
+    public static void deleteVal(String key) {
+        val.remove(key);
+    }
+    
+    public static class meta {
+        ${metaIns}
+    }
+
+    public static class drawable {
+        ${drawableIns}
+    }
+    
+    public static class layout {
+        ${layoutIns}
+    }
+    
+    public static class raw {
+        ${rawIns}
+    }
+
+    public static class string {
+        ${stringIns}
+    }
+	
+    public static class integer {
+        ${integerIns}
+    }
+	
+    public static class bool {
+        ${boolIns}
+    }
+	
+    public static class style {
+        ${styleIns}
+    }
+	
+    public static class color {
+        ${colorIns}
+    }
+
+    ${class}
+}

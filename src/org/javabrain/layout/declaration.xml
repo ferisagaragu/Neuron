@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<res>
+    <!--import = de donde probiene-->
+    <!--defaultDeclaration = dara la ruta en string o el tipo de dato prefabricado-->
+    <!--toString = leera lo que el archivo contenga y lo convertira en una variable -->
+    <drawable>
+        <png import="javafx.scene.image.Image">Image ${key} = new Image("${value}");</png>
+        <jpg import="javafx.scene.image.Image">Image ${key} = new Image("${value}");</jpg>
+        <gif import="javafx.scene.image.Image">Image ${key} = new Image("${value}");</gif>
+        <bmp import="javafx.scene.image.Image">Image ${key} = new Image("${value}");</bmp>
+    </drawable>
+
+    <layout>
+        <fxml/>
+        <xml/>
+        <html/>
+        <xhtml/>
+    </layout>
+
+    <raw>
+        <json import="[import org.json.simple.JSONObject;,
+                      import org.json.simple.parser.JSONParser;,
+                      import org.json.simple.parser.ParseException;]"
+        toString="true">
+            YOUR CODE HERE
+        </json>
+    </raw>
+
+    <value>
+        <bool/>
+        <color/>
+        <integer/>
+        <string/>
+        <style/>
+        <float type="float"/>
+    </value>
+
+</res>

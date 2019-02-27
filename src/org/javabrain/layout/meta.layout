@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<meta>
+    <version>0.0.1</version>
+    <language>${lang}</language>
+    <appName>put here your app name</appName>
+    <platform>java</platform>
+</meta>

@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN"
+                            "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
+<filesystem>
+    <folder name="Templates">
+        <folder name="Other">
+            <file name="NdecTemplate.ndec" url="nbresloc:/org/javabrain/view/ndec/NdecTemplate.ndec">
+                <!--org.javabrain.view.ndec-->
+                <attr boolvalue="true" name="template"/>
+                <attr boolvalue="true" name="requireProject"/>
+            </file>
+            <file name="NmetTemplate.nmet" url="nbresloc:/org/javabrain/view/nmet/NmetTemplate.nmet">
+                <!--org.javabrain.view.nmet-->
+                <attr boolvalue="true" name="template"/>
+                <attr boolvalue="true" name="requireProject"/>
+            </file>
+            <file name="NvarTemplate.nvar" url="nbresloc:/org/javabrain/view/nvar/NvarTemplate.nvar">
+                <!--org.javabrain.view.nvar-->
+                <attr boolvalue="true" name="template"/>
+                <attr boolvalue="true" name="requireProject"/>
+            </file>
+        </folder>
+    </folder>
+    <folder name="Services">
+        <folder name="MIMEResolver">
+            <file name="org-javabrain-view-ndec-NdecDataObject-Extension.xml">
+                <!--org.javabrain.view.ndec.NdecDataObject-->
+                <attr
+                    methodvalue="org.openide.filesystems.MIMEResolver.create" name="instanceCreate"/>
+                <attr name="instanceClass" stringvalue="org.openide.filesystems.MIMEResolver"/>
+                <attr name="mimeType" stringvalue="text/ndec+xml"/>
+                <attr name="ext.0" stringvalue="ndec"/>
+                <attr name="ext.1" stringvalue="NDEC"/>
+                <attr
+                    bundlevalue="org.javabrain.view.ndec.Bundle#LBL_Ndec_LOADER" name="displayName"/>
+            </file>
+            <file name="org-javabrain-view-nmet-NmetDataObject-Extension.xml">
+                <!--org.javabrain.view.nmet.NmetDataObject-->
+                <attr
+                    methodvalue="org.openide.filesystems.MIMEResolver.create" name="instanceCreate"/>
+                <attr name="instanceClass" stringvalue="org.openide.filesystems.MIMEResolver"/>
+                <attr name="mimeType" stringvalue="text/nmet+xml"/>
+                <attr name="ext.0" stringvalue="nmet"/>
+                <attr name="ext.1" stringvalue="NMET"/>
+                <attr
+                    bundlevalue="org.javabrain.view.nmet.Bundle#LBL_Nmet_LOADER" name="displayName"/>
+            </file>
+            <file name="org-javabrain-view-nvar-NvarDataObject-Extension.xml">
+                <!--org.javabrain.view.nvar.NvarDataObject-->
+                <attr
+                    methodvalue="org.openide.filesystems.MIMEResolver.create" name="instanceCreate"/>
+                <attr name="instanceClass" stringvalue="org.openide.filesystems.MIMEResolver"/>
+                <attr name="mimeType" stringvalue="text/nvar+xml"/>
+                <attr name="ext.0" stringvalue="nvar"/>
+                <attr name="ext.1" stringvalue="NVAR"/>
+                <attr
+                    bundlevalue="org.javabrain.view.nvar.Bundle#LBL_Nvar_LOADER" name="displayName"/>
+            </file>
+        </folder>
+    </folder>
+    <folder name="Editors">
+        <folder name="text">
+            <folder name="ndec+xml">
+                <folder name="MultiView">
+                    <file name="org-javabrain-view-ndec-NdecDataObject-createEditor.instance">
+                        <!--org.javabrain.view.ndec.NdecDataObject.createEditor(org.openide.util.Lookup)-->
+                        <attr
+                            methodvalue="org.netbeans.core.spi.multiview.MultiViewFactory.createMultiViewDescription" name="instanceCreate"/>
+                        <attr name="instanceClass" stringvalue="org.netbeans.core.multiview.ContextAwareDescription"/>
+                        <attr name="class" stringvalue="org.javabrain.view.ndec.NdecDataObject"/>
+                        <attr
+                            bundlevalue="org.javabrain.view.ndec.Bundle#LBL_Ndec_EDITOR" name="displayName"/>
+                        <attr name="iconBase" stringvalue="res/ndec.png"/>
+                        <attr name="preferredID" stringvalue="Ndec"/>
+                        <attr intvalue="1" name="persistenceType"/>
+                        <attr intvalue="1000" name="position"/>
+                        <attr name="method" stringvalue="createEditor"/>
+                        <attr boolvalue="true" name="sourceview"/>
+                    </file>
+                    <file name="org-javabrain-view-ndec-NdecVisualElement.instance">
+                        <!--org.javabrain.view.ndec.NdecVisualElement-->
+                        <attr
+                            methodvalue="org.netbeans.core.spi.multiview.MultiViewFactory.createMultiViewDescription" name="instanceCreate"/>
+                        <attr name="instanceClass" stringvalue="org.netbeans.core.multiview.ContextAwareDescription"/>
+                        <attr name="class" stringvalue="org.javabrain.view.ndec.NdecVisualElement"/>
+                        <attr
+                            bundlevalue="org.javabrain.view.ndec.Bundle#LBL_Ndec_VISUAL" name="displayName"/>
+                        <attr name="iconBase" stringvalue="res/ndec.png"/>
+                        <attr name="preferredID" stringvalue="NdecVisual"/>
+                        <attr intvalue="2" name="persistenceType"/>
+                        <attr intvalue="2000" name="position"/>
+                    </file>
+                </folder>
+            </folder>
+            <folder name="nmet+xml">
+                <folder name="MultiView">
+                    <file name="org-javabrain-view-nmet-NmetDataObject-createEditor.instance">
+                        <!--org.javabrain.view.nmet.NmetDataObject.createEditor(org.openide.util.Lookup)-->
+                        <attr
+                            methodvalue="org.netbeans.core.spi.multiview.MultiViewFactory.createMultiViewDescription" name="instanceCreate"/>
+                        <attr name="instanceClass" stringvalue="org.netbeans.core.multiview.ContextAwareDescription"/>
+                        <attr name="class" stringvalue="org.javabrain.view.nmet.NmetDataObject"/>
+                        <attr
+                            bundlevalue="org.javabrain.view.nmet.Bundle#LBL_Nmet_EDITOR" name="displayName"/>
+                        <attr name="iconBase" stringvalue="res/nmet.png"/>
+                        <attr name="preferredID" stringvalue="Nmet"/>
+                        <attr intvalue="1" name="persistenceType"/>
+                        <attr intvalue="1000" name="position"/>
+                        <attr name="method" stringvalue="createEditor"/>
+                        <attr boolvalue="true" name="sourceview"/>
+                    </file>
+                    <file name="org-javabrain-view-nmet-NmetVisualElement.instance">
+                        <!--org.javabrain.view.nmet.NmetVisualElement-->
+                        <attr
+                            methodvalue="org.netbeans.core.spi.multiview.MultiViewFactory.createMultiViewDescription" name="instanceCreate"/>
+                        <attr name="instanceClass" stringvalue="org.netbeans.core.multiview.ContextAwareDescription"/>
+                        <attr name="class" stringvalue="org.javabrain.view.nmet.NmetVisualElement"/>
+                        <attr
+                            bundlevalue="org.javabrain.view.nmet.Bundle#LBL_Nmet_VISUAL" name="displayName"/>
+                        <attr name="iconBase" stringvalue="res/nmet.png"/>
+                        <attr name="preferredID" stringvalue="NmetVisual"/>
+                        <attr intvalue="2" name="persistenceType"/>
+                        <attr intvalue="2000" name="position"/>
+                    </file>
+                </folder>
+            </folder>
+            <folder name="nvar+xml">
+                <folder name="MultiView">
+                    <file name="org-javabrain-view-nvar-NvarDataObject-createEditor.instance">
+                        <!--org.javabrain.view.nvar.NvarDataObject.createEditor(org.openide.util.Lookup)-->
+                        <attr
+                            methodvalue="org.netbeans.core.spi.multiview.MultiViewFactory.createMultiViewDescription" name="instanceCreate"/>
+                        <attr name="instanceClass" stringvalue="org.netbeans.core.multiview.ContextAwareDescription"/>
+                        <attr name="class" stringvalue="org.javabrain.view.nvar.NvarDataObject"/>
+                        <attr
+                            bundlevalue="org.javabrain.view.nvar.Bundle#LBL_Nvar_EDITOR" name="displayName"/>
+                        <attr name="iconBase" stringvalue="res/nvar.png"/>
+                        <attr name="preferredID" stringvalue="Nvar"/>
+                        <attr intvalue="1" name="persistenceType"/>
+                        <attr intvalue="1000" name="position"/>
+                        <attr name="method" stringvalue="createEditor"/>
+                        <attr boolvalue="true" name="sourceview"/>
+                    </file>
+                    <file name="org-javabrain-view-nvar-NvarVisualElement.instance">
+                        <!--org.javabrain.view.nvar.NvarVisualElement-->
+                        <attr
+                            methodvalue="org.netbeans.core.spi.multiview.MultiViewFactory.createMultiViewDescription" name="instanceCreate"/>
+                        <attr name="instanceClass" stringvalue="org.netbeans.core.multiview.ContextAwareDescription"/>
+                        <attr name="class" stringvalue="org.javabrain.view.nvar.NvarVisualElement"/>
+                        <attr
+                            bundlevalue="org.javabrain.view.nvar.Bundle#LBL_Nvar_VISUAL" name="displayName"/>
+                        <attr name="iconBase" stringvalue="res/nvar.png"/>
+                        <attr name="preferredID" stringvalue="NvarVisual"/>
+                        <attr intvalue="2" name="persistenceType"/>
+                        <attr intvalue="2000" name="position"/>
+                    </file>
+                </folder>
+            </folder>
+        </folder>
+    </folder>
+    <folder name="Actions">
+        <folder name="JavaBrain">
+            <file name="org-javabrain-view-Actions.instance">
+                <!--org.javabrain.view.Actions-->
+                <attr name="displayName" stringvalue="NOT-USED"/>
+                <attr name="instanceCreate" newvalue="org.javabrain.view.Actions"/>
+            </file>
+        </folder>
+        <folder name="Window">
+            <file name="org-javabrain-view-OuputNeuronTopComponent.instance">
+                <!--org.javabrain.view.OuputNeuronTopComponent-->
+                <attr
+                    methodvalue="org.openide.windows.TopComponent.openAction" name="instanceCreate"/>
+                <attr name="component" newvalue="org.javabrain.view.OuputNeuronTopComponent"/>
+                <attr name="preferredID" stringvalue="OuputNeuronTopComponent"/>
+                <attr
+                    bundlevalue="org.javabrain.view.Bundle#CTL_OuputNeuronAction" name="displayName"/>
+                <attr name="iconBase" stringvalue="res/icon_output.png"/>
+            </file>
+        </folder>
+    </folder>
+    <folder name="Toolbars">
+        <folder name="Debug">
+            <file name="org-javabrain-view-Actions.shadow">
+                <!--org.javabrain.view.Actions-->
+                <attr name="originalFile" stringvalue="Actions/JavaBrain/org-javabrain-view-Actions.instance"/>
+                <attr intvalue="0" name="position"/>
+            </file>
+        </folder>
+    </folder>
+    <folder name="Menu">
+        <folder name="Window">
+            <file name="org-javabrain-view-OuputNeuronTopComponent.shadow">
+                <!--org.javabrain.view.OuputNeuronTopComponent-->
+                <attr name="originalFile" stringvalue="Actions/Window/org-javabrain-view-OuputNeuronTopComponent.instance"/>
+            </file>
+        </folder>
+    </folder>
+    <folder name="Loaders">
+        <folder name="text">
+            <folder name="ndec+xml">
+                <folder name="Actions">
+                    <file name="org-openide-actions-OpenAction.shadow">
+                        <!--org.javabrain.view.ndec.NdecDataObject-->
+                        <attr name="originalFile" stringvalue="Actions/System/org-openide-actions-OpenAction.instance"/>
+                        <attr intvalue="100" name="position"/>
+                    </file>
+                    <file name="org-openide-actions-OpenAction-separatorAfter.instance">
+                        <!--org.javabrain.view.ndec.NdecDataObject-->
+                        <attr name="instanceCreate" newvalue="javax.swing.JSeparator"/>
+                        <attr intvalue="200" name="position"/>
+                    </file>
+                    <file name="org-openide-actions-CutAction.shadow">
+                        <!--org.javabrain.view.ndec.NdecDataObject-->
+                        <attr name="originalFile" stringvalue="Actions/Edit/org-openide-actions-CutAction.instance"/>
+                        <attr intvalue="300" name="position"/>
+                    </file>
+                    <file name="org-openide-actions-CopyAction.shadow">
+                        <!--org.javabrain.view.ndec.NdecDataObject-->
+                        <attr name="originalFile" stringvalue="Actions/Edit/org-openide-actions-CopyAction.instance"/>
+                        <attr intvalue="400" name="position"/>
+                    </file>
+                    <file name="org-openide-actions-CopyAction-separatorAfter.instance">
+                        <!--org.javabrain.view.ndec.NdecDataObject-->
+                        <attr name="instanceCreate" newvalue="javax.swing.JSeparator"/>
+                        <attr intvalue="500" name="position"/>
+                    </file>
+                    <file name="org-openide-actions-DeleteAction.shadow">
+                        <!--org.javabrain.view.ndec.NdecDataObject-->
+                        <attr name="originalFile" stringvalue="Actions/Edit/org-openide-actions-DeleteAction.instance"/>
+                        <attr intvalue="600" name="position"/>
+                    </file>
+                    <file name="org-openide-actions-RenameAction.shadow">
+                        <!--org.javabrain.view.ndec.NdecDataObject-->
+                        <attr name="originalFile" stringvalue="Actions/System/org-openide-actions-RenameAction.instance"/>
+                        <attr intvalue="700" name="position"/>
+                    </file>
+                    <file name="org-openide-actions-RenameAction-separatorAfter.instance">
+                        <!--org.javabrain.view.ndec.NdecDataObject-->
+                        <attr name="instanceCreate" newvalue="javax.swing.JSeparator"/>
+                        <attr intvalue="800" name="position"/>
+                    </file>
+                    <file name="org-openide-actions-SaveAsTemplateAction.shadow">
+                        <!--org.javabrain.view.ndec.NdecDataObject-->
+                        <attr name="originalFile" stringvalue="Actions/System/org-openide-actions-SaveAsTemplateAction.instance"/>
+                        <attr intvalue="900" name="position"/>
+                    </file>
+                    <file name="org-openide-actions-SaveAsTemplateAction-separatorAfter.instance">
+                        <!--org.javabrain.view.ndec.NdecDataObject-->
+                        <attr name="instanceCreate" newvalue="javax.swing.JSeparator"/>
+                        <attr intvalue="1000" name="position"/>
+                    </file>
+                    <file name="org-openide-actions-FileSystemAction.shadow">
+                        <!--org.javabrain.view.ndec.NdecDataObject-->
+                        <attr name="originalFile" stringvalue="Actions/System/org-openide-actions-FileSystemAction.instance"/>
+                        <attr intvalue="1100" name="position"/>
+                    </file>
+                    <file name="org-openide-actions-FileSystemAction-separatorAfter.instance">
+                        <!--org.javabrain.view.ndec.NdecDataObject-->
+                        <attr name="instanceCreate" newvalue="javax.swing.JSeparator"/>
+                        <attr intvalue="1200" name="position"/>
+                    </file>
+                    <file name="org-openide-actions-ToolsAction.shadow">
+                        <!--org.javabrain.view.ndec.NdecDataObject-->
+                        <attr name="originalFile" stringvalue="Actions/System/org-openide-actions-ToolsAction.instance"/>
+                        <attr intvalue="1300" name="position"/>
+                    </file>
+                    <file name="org-openide-actions-PropertiesAction.shadow">
+                        <!--org.javabrain.view.ndec.NdecDataObject-->
+                        <attr name="originalFile" stringvalue="Actions/System/org-openide-actions-PropertiesAction.instance"/>
+                        <attr intvalue="1400" name="position"/>
+                    </file>
+                </folder>
+                <folder name="Factories">
+                    <file name="org-javabrain-view-ndec-NdecDataObject.instance">
+                        <!--org.javabrain.view.ndec.NdecDataObject-->
+                        <attr name="iconBase" stringvalue="res/ndec.png"/>
+                        <attr intvalue="300" name="position"/>
+                        <attr
+                            bundlevalue="org.javabrain.view.ndec.Bundle#LBL_Ndec_LOADER" name="displayName"/>
+                        <attr
+                            methodvalue="org.openide.loaders.DataLoaderPool.factory" name="instanceCreate"/>
+                        <attr name="dataObjectClass" stringvalue="org.javabrain.view.ndec.NdecDataObject"/>
+                        <attr name="mimeType" stringvalue="text/ndec+xml"/>
+                    </file>
+                </folder>
+            </folder>
+            <folder name="nmet+xml">
+                <folder name="Actions">
+                    <file name="org-openide-actions-OpenAction.shadow">
+                        <!--org.javabrain.view.nmet.NmetDataObject-->
+                        <attr name="originalFile" stringvalue="Actions/System/org-openide-actions-OpenAction.instance"/>
+                        <attr intvalue="100" name="position"/>
+                    </file>
+                    <file name="org-openide-actions-OpenAction-separatorAfter.instance">
+                        <!--org.javabrain.view.nmet.NmetDataObject-->
+                        <attr name="instanceCreate" newvalue="javax.swing.JSeparator"/>
+                        <attr intvalue="200" name="position"/>
+                    </file>
+                    <file name="org-openide-actions-CutAction.shadow">
+                        <!--org.javabrain.view.nmet.NmetDataObject-->
+                        <attr name="originalFile" stringvalue="Actions/Edit/org-openide-actions-CutAction.instance"/>
+                        <attr intvalue="300" name="position"/>
+                    </file>
+                    <file name="org-openide-actions-CopyAction.shadow">
+                        <!--org.javabrain.view.nmet.NmetDataObject-->
+                        <attr name="originalFile" stringvalue="Actions/Edit/org-openide-actions-CopyAction.instance"/>
+                        <attr intvalue="400" name="position"/>
+                    </file>
+                    <file name="org-openide-actions-CopyAction-separatorAfter.instance">
+                        <!--org.javabrain.view.nmet.NmetDataObject-->
+                        <attr name="instanceCreate" newvalue="javax.swing.JSeparator"/>
+                        <attr intvalue="500" name="position"/>
+                    </file>
+                    <file name="org-openide-actions-DeleteAction.shadow">
+                        <!--org.javabrain.view.nmet.NmetDataObject-->
+                        <attr name="originalFile" stringvalue="Actions/Edit/org-openide-actions-DeleteAction.instance"/>
+                        <attr intvalue="600" name="position"/>
+                    </file>
+                    <file name="org-openide-actions-RenameAction.shadow">
+                        <!--org.javabrain.view.nmet.NmetDataObject-->
+                        <attr name="originalFile" stringvalue="Actions/System/org-openide-actions-RenameAction.instance"/>
+                        <attr intvalue="700" name="position"/>
+                    </file>
+                    <file name="org-openide-actions-RenameAction-separatorAfter.instance">
+                        <!--org.javabrain.view.nmet.NmetDataObject-->
+                        <attr name="instanceCreate" newvalue="javax.swing.JSeparator"/>
+                        <attr intvalue="800" name="position"/>
+                    </file>
+                    <file name="org-openide-actions-SaveAsTemplateAction.shadow">
+                        <!--org.javabrain.view.nmet.NmetDataObject-->
+                        <attr name="originalFile" stringvalue="Actions/System/org-openide-actions-SaveAsTemplateAction.instance"/>
+                        <attr intvalue="900" name="position"/>
+                    </file>
+                    <file name="org-openide-actions-SaveAsTemplateAction-separatorAfter.instance">
+                        <!--org.javabrain.view.nmet.NmetDataObject-->
+                        <attr name="instanceCreate" newvalue="javax.swing.JSeparator"/>
+                        <attr intvalue="1000" name="position"/>
+                    </file>
+                    <file name="org-openide-actions-FileSystemAction.shadow">
+                        <!--org.javabrain.view.nmet.NmetDataObject-->
+                        <attr name="originalFile" stringvalue="Actions/System/org-openide-actions-FileSystemAction.instance"/>
+                        <attr intvalue="1100" name="position"/>
+                    </file>
+                    <file name="org-openide-actions-FileSystemAction-separatorAfter.instance">
+                        <!--org.javabrain.view.nmet.NmetDataObject-->
+                        <attr name="instanceCreate" newvalue="javax.swing.JSeparator"/>
+                        <attr intvalue="1200" name="position"/>
+                    </file>
+                    <file name="org-openide-actions-ToolsAction.shadow">
+                        <!--org.javabrain.view.nmet.NmetDataObject-->
+                        <attr name="originalFile" stringvalue="Actions/System/org-openide-actions-ToolsAction.instance"/>
+                        <attr intvalue="1300" name="position"/>
+                    </file>
+                    <file name="org-openide-actions-PropertiesAction.shadow">
+                        <!--org.javabrain.view.nmet.NmetDataObject-->
+                        <attr name="originalFile" stringvalue="Actions/System/org-openide-actions-PropertiesAction.instance"/>
+                        <attr intvalue="1400" name="position"/>
+                    </file>
+                </folder>
+                <folder name="Factories">
+                    <file name="org-javabrain-view-nmet-NmetDataObject.instance">
+                        <!--org.javabrain.view.nmet.NmetDataObject-->
+                        <attr name="iconBase" stringvalue="res/nmet.png"/>
+                        <attr intvalue="300" name="position"/>
+                        <attr
+                            bundlevalue="org.javabrain.view.nmet.Bundle#LBL_Nmet_LOADER" name="displayName"/>
+                        <attr
+                            methodvalue="org.openide.loaders.DataLoaderPool.factory" name="instanceCreate"/>
+                        <attr name="dataObjectClass" stringvalue="org.javabrain.view.nmet.NmetDataObject"/>
+                        <attr name="mimeType" stringvalue="text/nmet+xml"/>
+                    </file>
+                </folder>
+            </folder>
+            <folder name="nvar+xml">
+                <folder name="Actions">
+                    <file name="org-openide-actions-OpenAction.shadow">
+                        <!--org.javabrain.view.nvar.NvarDataObject-->
+                        <attr name="originalFile" stringvalue="Actions/System/org-openide-actions-OpenAction.instance"/>
+                        <attr intvalue="100" name="position"/>
+                    </file>
+                    <file name="org-openide-actions-OpenAction-separatorAfter.instance">
+                        <!--org.javabrain.view.nvar.NvarDataObject-->
+                        <attr name="instanceCreate" newvalue="javax.swing.JSeparator"/>
+                        <attr intvalue="200" name="position"/>
+                    </file>
+                    <file name="org-openide-actions-CutAction.shadow">
+                        <!--org.javabrain.view.nvar.NvarDataObject-->
+                        <attr name="originalFile" stringvalue="Actions/Edit/org-openide-actions-CutAction.instance"/>
+                        <attr intvalue="300" name="position"/>
+                    </file>
+                    <file name="org-openide-actions-CopyAction.shadow">
+                        <!--org.javabrain.view.nvar.NvarDataObject-->
+                        <attr name="originalFile" stringvalue="Actions/Edit/org-openide-actions-CopyAction.instance"/>
+                        <attr intvalue="400" name="position"/>
+                    </file>
+                    <file name="org-openide-actions-CopyAction-separatorAfter.instance">
+                        <!--org.javabrain.view.nvar.NvarDataObject-->
+                        <attr name="instanceCreate" newvalue="javax.swing.JSeparator"/>
+                        <attr intvalue="500" name="position"/>
+                    </file>
+                    <file name="org-openide-actions-DeleteAction.shadow">
+                        <!--org.javabrain.view.nvar.NvarDataObject-->
+                        <attr name="originalFile" stringvalue="Actions/Edit/org-openide-actions-DeleteAction.instance"/>
+                        <attr intvalue="600" name="position"/>
+                    </file>
+                    <file name="org-openide-actions-RenameAction.shadow">
+                        <!--org.javabrain.view.nvar.NvarDataObject-->
+                        <attr name="originalFile" stringvalue="Actions/System/org-openide-actions-RenameAction.instance"/>
+                        <attr intvalue="700" name="position"/>
+                    </file>
+                    <file name="org-openide-actions-RenameAction-separatorAfter.instance">
+                        <!--org.javabrain.view.nvar.NvarDataObject-->
+                        <attr name="instanceCreate" newvalue="javax.swing.JSeparator"/>
+                        <attr intvalue="800" name="position"/>
+                    </file>
+                    <file name="org-openide-actions-SaveAsTemplateAction.shadow">
+                        <!--org.javabrain.view.nvar.NvarDataObject-->
+                        <attr name="originalFile" stringvalue="Actions/System/org-openide-actions-SaveAsTemplateAction.instance"/>
+                        <attr intvalue="900" name="position"/>
+                    </file>
+                    <file name="org-openide-actions-SaveAsTemplateAction-separatorAfter.instance">
+                        <!--org.javabrain.view.nvar.NvarDataObject-->
+                        <attr name="instanceCreate" newvalue="javax.swing.JSeparator"/>
+                        <attr intvalue="1000" name="position"/>
+                    </file>
+                    <file name="org-openide-actions-FileSystemAction.shadow">
+                        <!--org.javabrain.view.nvar.NvarDataObject-->
+                        <attr name="originalFile" stringvalue="Actions/System/org-openide-actions-FileSystemAction.instance"/>
+                        <attr intvalue="1100" name="position"/>
+                    </file>
+                    <file name="org-openide-actions-FileSystemAction-separatorAfter.instance">
+                        <!--org.javabrain.view.nvar.NvarDataObject-->
+                        <attr name="instanceCreate" newvalue="javax.swing.JSeparator"/>
+                        <attr intvalue="1200" name="position"/>
+                    </file>
+                    <file name="org-openide-actions-ToolsAction.shadow">
+                        <!--org.javabrain.view.nvar.NvarDataObject-->
+                        <attr name="originalFile" stringvalue="Actions/System/org-openide-actions-ToolsAction.instance"/>
+                        <attr intvalue="1300" name="position"/>
+                    </file>
+                    <file name="org-openide-actions-PropertiesAction.shadow">
+                        <!--org.javabrain.view.nvar.NvarDataObject-->
+                        <attr name="originalFile" stringvalue="Actions/System/org-openide-actions-PropertiesAction.instance"/>
+                        <attr intvalue="1400" name="position"/>
+                    </file>
+                </folder>
+                <folder name="Factories">
+                    <file name="org-javabrain-view-nvar-NvarDataObject.instance">
+                        <!--org.javabrain.view.nvar.NvarDataObject-->
+                        <attr name="iconBase" stringvalue="res/nvar.png"/>
+                        <attr intvalue="300" name="position"/>
+                        <attr
+                            bundlevalue="org.javabrain.view.nvar.Bundle#LBL_Nvar_LOADER" name="displayName"/>
+                        <attr
+                            methodvalue="org.openide.loaders.DataLoaderPool.factory" name="instanceCreate"/>
+                        <attr name="dataObjectClass" stringvalue="org.javabrain.view.nvar.NvarDataObject"/>
+                        <attr name="mimeType" stringvalue="text/nvar+xml"/>
+                    </file>
+                </folder>
+            </folder>
+        </folder>
+    </folder>
+    <folder name="Windows2">
+        <folder name="Components">
+            <file name="OuputNeuronTopComponent.settings">
+                <!--org.javabrain.view.OuputNeuronTopComponent--><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE settings PUBLIC "-//NetBeans//DTD Session settings 1.0//EN" "http://www.netbeans.org/dtds/sessionsettings-1_0.dtd">
+<settings version="1.0">
+  <instance class="org.javabrain.view.OuputNeuronTopComponent"/>
+</settings>
+]]></file>
+        </folder>
+        <folder name="Modes">
+            <folder name="output">
+                <file name="OuputNeuronTopComponent.wstcref">
+                    <!--org.javabrain.view.OuputNeuronTopComponent--><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tc-ref PUBLIC "-//NetBeans//DTD Top Component in Mode Properties 2.0//EN" "http://www.netbeans.org/dtds/tc-ref2_0.dtd">
+<tc-ref version="2.0">
+  <tc-id id="OuputNeuronTopComponent"/>
+  <state opened="true"/>
+</tc-ref>
+]]></file>
+            </folder>
+        </folder>
+    </folder>
+    <folder name="xml">
+        <folder name="entities">
+            <folder name="org_javabrain_view">
+                <file name="OuputNeuron" url="nbres:/org/netbeans/modules/settings/resources/properties-1_0.dtd">
+                    <!--org.javabrain.view.OuputNeuronTopComponent-->
+                    <attr name="hint.originalPublicID" stringvalue="-//org.javabrain.view//OuputNeuron//EN"/>
+                </file>
+            </folder>
+        </folder>
+        <folder name="memory">
+            <folder name="org">
+                <folder name="javabrain">
+                    <folder name="view">
+                        <file name="OuputNeuronTopComponent">
+                            <!--org.javabrain.view.OuputNeuronTopComponent-->
+                            <attr name="settings.providerPath" stringvalue="xml/lookups//org_javabrain_view/OuputNeuron.instance"/>
+                        </file>
+                    </folder>
+                </folder>
+            </folder>
+        </folder>
+        <folder name="lookups">
+            <folder name="org_javabrain_view">
+                <file name="OuputNeuron.instance">
+                    <!--org.javabrain.view.OuputNeuronTopComponent-->
+                    <attr
+                        methodvalue="org.netbeans.api.settings.Factory.create" name="instanceCreate"/>
+                    <attr
+                        methodvalue="org.netbeans.api.settings.Factory.properties" name="settings.convertor"/>
+                    <attr name="settings.instanceClass" stringvalue="org.javabrain.view.OuputNeuronTopComponent"/>
+                    <attr name="settings.instanceOf" stringvalue="org.javabrain.view.OuputNeuronTopComponent"/>
+                    <attr boolvalue="true" name="xmlproperties.preventStoring"/>
+                </file>
+            </folder>
+        </folder>
+    </folder>
+</filesystem>
