@@ -48,6 +48,8 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
     private RawNew rawNew = new RawNew(null, true);
     private RawEdit rawEdit = new RawEdit(null, true);
     
+    private ColorDec colorDec = new ColorDec(null, true);
+    
     public NdecVisualElement(Lookup lkp) throws IOException {
         obj = lkp.lookup(NdecDataObject.class);
         assert obj != null;
@@ -429,6 +431,39 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
                 rawEdit.hideRaw();
             }
         });
+        
+        colorDec.getOkBtn().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                if (colorDec.getJavaRadio().isSelected()) {
+                    jLabel5.setText("<html><b style=\"color:#757575;\">color    </b><b style=\"color:#0D47A1;\">{String}</b></html>");
+                   
+                    xml.getDocument().getElementsByTagName("color").item(0).setTextContent("");
+                    ((Element) xml.getDocument().getElementsByTagName("color").item(0)).removeAttribute("import");
+                        
+                } else if (colorDec.getJavaSwingRadio().isSelected()) {
+                    jLabel5.setText("<html><b style=\"color:#757575;\">color    </b><b style=\"color:#0D47A1;\">{Color:Swing}</b></html>");
+                
+                    xml.getDocument().getElementsByTagName("color").item(0).setTextContent("Color ${key} = Color.decode(\"${value}\");");
+                    
+                    ((Element) xml.getDocument().getElementsByTagName("color").item(0)).setAttribute("import", "");
+                    xml.getDocument().getElementsByTagName("color").item(0).getAttributes().getNamedItem("import").setTextContent("java.awt.Color");
+                    
+                } else if (colorDec.getJavaFXRadio().isSelected()) {
+                    jLabel5.setText("<html><b style=\"color:#757575;\">color    </b><b style=\"color:#0D47A1;\">{Color:FX}</b></html>");
+                    
+                    xml.getDocument().getElementsByTagName("color").item(0).setTextContent("Color ${key} = Color.web(\"${value}\");");
+                    
+                    ((Element) xml.getDocument().getElementsByTagName("color").item(0)).setAttribute("import", "");
+                    xml.getDocument().getElementsByTagName("color").item(0).getAttributes().getNamedItem("import").setTextContent("import javafx.scene.paint.Color");
+                    
+                }
+                
+                colorDec.hideColor();
+            }
+        });
+        
     }
 
     @Override
@@ -668,6 +703,11 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
         org.openide.awt.Mnemonics.setLocalizedText(jLabel4, org.openide.util.NbBundle.getMessage(NdecVisualElement.class, "NdecVisualElement.jLabel4.text")); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(jButton3, org.openide.util.NbBundle.getMessage(NdecVisualElement.class, "NdecVisualElement.jButton3.text")); // NOI18N
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/color.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(jLabel5, org.openide.util.NbBundle.getMessage(NdecVisualElement.class, "NdecVisualElement.jLabel5.text")); // NOI18N
@@ -881,6 +921,10 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
         parent.removeChild(element);
         raw.remove(rawLts.getSelectedIndex());
     }//GEN-LAST:event_deleteRawActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        colorDec.showColor();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem deleteDrawableMenu;

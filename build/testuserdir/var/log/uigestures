@@ -1,7 +1,7 @@
 <record>
-  <date>2019-03-05T17:03:16</date>
-  <millis>1551826996430</millis>
-  <sequence>70</sequence>
+  <date>2019-03-05T17:21:37</date>
+  <millis>1551828097643</millis>
+  <sequence>58</sequence>
   <level>300</level>
   <thread>15</thread>
   <message>SCREEN SIZE</message>
@@ -10,17 +10,17 @@
   <param>2</param>
 </record>
 <record>
-  <date>2019-03-05T17:03:16</date>
-  <millis>1551826996431</millis>
-  <sequence>71</sequence>
+  <date>2019-03-05T17:21:37</date>
+  <millis>1551828097643</millis>
+  <sequence>59</sequence>
   <level>700</level>
   <thread>15</thread>
   <message>IDE_STARTUP</message>
 </record>
 <record>
-  <date>2019-03-05T17:03:19</date>
-  <millis>1551826999684</millis>
-  <sequence>93</sequence>
+  <date>2019-03-05T17:21:40</date>
+  <millis>1551828100120</millis>
+  <sequence>82</sequence>
   <logger>org.netbeans.ui.metrics.laf</logger>
   <level>800</level>
   <thread>15</thread>
@@ -29,59 +29,13 @@
   <param>Windows</param>
 </record>
 <record>
-  <date>2019-03-05T17:03:27</date>
-  <millis>1551827007283</millis>
-  <sequence>110</sequence>
+  <date>2019-03-05T17:21:46</date>
+  <millis>1551828106394</millis>
+  <sequence>100</sequence>
   <level>800</level>
-  <thread>33</thread>
+  <thread>34</thread>
   <message>MEMORY</message>
   <key>MEMORY</key>
   <catalog>&lt;null&gt;</catalog>
   <param>8381652992</param>
-</record>
-<record>
-  <date>2019-03-05T17:03:48</date>
-  <millis>1551827028848</millis>
-  <sequence>114</sequence>
-  <logger>org.netbeans.ui.metrics.editor</logger>
-  <level>800</level>
-  <thread>14</thread>
-  <message>USG_EDITOR_MIME_TYPE</message>
-  <param>text/ndec+xml</param>
-  <param>1</param>
-</record>
-<record>
-  <date>2019-03-05T17:03:49</date>
-  <millis>1551827029082</millis>
-  <sequence>117</sequence>
-  <logger>org.netbeans.ui.indexing</logger>
-  <level>800</level>
-  <thread>59</thread>
-  <message>INDEXING_STARTED</message>
-  <key>INDEXING_STARTED</key>
-  <catalog>org.netbeans.modules.parsing.impl.indexing.Bundle</catalog>
-  <param>0</param>
-</record>
-<record>
-  <date>2019-03-05T17:03:49</date>
-  <millis>1551827029102</millis>
-  <sequence>118</sequence>
-  <logger>org.netbeans.ui.indexing</logger>
-  <level>800</level>
-  <thread>59</thread>
-  <message>INDEXING_FINISHED</message>
-  <key>INDEXING_FINISHED</key>
-  <catalog>org.netbeans.modules.parsing.impl.indexing.Bundle</catalog>
-  <param>13</param>
-</record>
-<record>
-  <date>2019-03-05T17:03:49</date>
-  <millis>1551827029523</millis>
-  <sequence>119</sequence>
-  <logger>org.netbeans.ui.focus</logger>
-  <level>500</level>
-  <thread>37</thread>
-  <message>LOG_WINDOW_DEACTIVATED</message>
-  <key>LOG_WINDOW_DEACTIVATED</key>
-  <catalog>org.netbeans.core.ui.warmup.Bundle</catalog>
 </record>

@@ -8,9 +8,9 @@ import org.openide.awt.ActionReference;
 import org.openide.awt.ActionRegistration;
 import org.openide.util.actions.Presenter;
 
-@ActionID(category = "JavaBrain", id = "org.javabrain.view.Actions")
+@ActionID(category = "File", id = "org.javabrain.view.Actions")
 @ActionRegistration( lazy = false, displayName = "NOT-USED")
-@ActionReference(path = "Toolbars/Debug", position = 0)
+@ActionReference(path = "Toolbars/Debug", position = 100)
 public final class Actions extends AbstractAction implements Presenter.Toolbar { 
 
     @Override
