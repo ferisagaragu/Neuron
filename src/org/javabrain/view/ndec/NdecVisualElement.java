@@ -45,6 +45,9 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
     private LayoutNew layoutNew = new LayoutNew(null, true);
     private LayoutEdit layoutEdit = new LayoutEdit(null, true);
     
+    private RawNew rawNew = new RawNew(null, true);
+    private RawEdit rawEdit = new RawEdit(null, true);
+    
     public NdecVisualElement(Lookup lkp) throws IOException {
         obj = lkp.lookup(NdecDataObject.class);
         assert obj != null;
@@ -71,6 +74,14 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
         editLayoutMenu.setBackground(Color.white);
         deleteLayoutMenu.setText("<html><b style=\"color:red;\">Drop layout</b></html>");
         deleteLayoutMenu.setBackground(Color.white);
+        
+        rawMenu.setBackground(Color.white);
+        newRaw.setText("<html><b style=\"color:green;\">New raw</b></html>");
+        newRaw.setBackground(Color.white);
+        editRaw.setText("<html><b style=\"color:orange;\">Edit raw</b></html>");
+        editRaw.setBackground(Color.white);
+        deleteRaw.setText("<html><b style=\"color:red;\">Drop raw</b></html>");
+        deleteRaw.setBackground(Color.white);
         
         drawableNew.getOkBtn().addActionListener(new ActionListener() {
             @Override
@@ -296,7 +307,128 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
             }
         });
         
+                rawNew.getOkBtn().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (rawNew.getSpecialCheck().isSelected()) {
+                    
+                    if (!rawNew.getExtensionFld().getText().isEmpty() && !rawNew.getImportClassFld().getText().isEmpty()
+                            && !rawNew.getClassFld().getText().isEmpty() && !rawNew.getDeclarationFld().getText().isEmpty()) {
+
+                        raw.addElement(new ListEntry("<html><body>"
+                                + "        <table>"
+                                + "            <tbody>"
+                                + "                <tr>"
+                                + "                    <td><b style=\"color:#EC407A;\">" + rawNew.getExtensionFld().getText() + "</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>"
+                                + "                    <td>\n"
+                                + "                        <b style=\"color:#0D47A1;\">import </b>" + rawNew.getImportClassFld().getText() + ";<br>"
+                                + (rawNew.getClassFld().getText() + " ${key} = " + rawNew.getDeclarationFld().getText() + ";").replace("${key}", "<b style=\"color:#00C853;\">${key}</b>").replace("${value}", "<b style=\"color:#00C853;\">${value}</b>")
+                                + "                    </td>"
+                                + "                    <td>\n"
+                                + (rawNew.getToStringCheck().isSelected() ?  "<b style=\"color:#0D47A1;\">toString</b>" : "")
+                                + "                    </td>"
+                                + "                </tr>"
+                                + "            </tbody>"
+                                + "        </table>"
+                                + "    </body></html>", new ImageIcon(this.getClass().getResource("/res/raw.png"))));
+
+                        xml.getDocument().getElementsByTagName("raw").item(0).appendChild(xml.getDocument().createElement(rawNew.getExtensionFld().getText()));
+                        xml.getDocument().getElementsByTagName(rawNew.getExtensionFld().getText()).item(0).setTextContent(rawNew.getClassFld().getText() + " ${key} = " + rawNew.getDeclarationFld().getText() + ";");
+                        ((Element) xml.getDocument().getElementsByTagName(rawNew.getExtensionFld().getText()).item(0)).setAttribute("import", "");
+                        xml.getDocument().getElementsByTagName(rawNew.getExtensionFld().getText()).item(0).getAttributes().getNamedItem("import").setTextContent(rawNew.getImportClassFld().getText());
+                        
+                        ((Element) xml.getDocument().getElementsByTagName(rawNew.getExtensionFld().getText()).item(0)).setAttribute("toString", "");
+                        xml.getDocument().getElementsByTagName(rawNew.getExtensionFld().getText()).item(0).getAttributes().getNamedItem("toString").setTextContent(rawNew.getToStringCheck().isSelected() + "");
+                        
+                        rawNew.hideLayout();
+
+                    } else {
+                        rawNew.showError();
+                    }
+                } else {
+                    if (!rawNew.getExtensionFld().getText().isEmpty()) {
+                        raw.addElement(new ListEntry("<html><b style=\"color:#EC407A;\">" + rawNew.getExtensionFld().getText() + "</b></html>", new ImageIcon(this.getClass().getResource("/res/raw.png"))));
+                        xml.getDocument().getElementsByTagName("raw").item(0).appendChild(xml.getDocument().createElement(rawNew.getExtensionFld().getText()));
+                       
+                        ((Element) xml.getDocument().getElementsByTagName(rawNew.getExtensionFld().getText()).item(0)).setAttribute("toString", "");
+                        xml.getDocument().getElementsByTagName(rawNew.getExtensionFld().getText()).item(0).getAttributes().getNamedItem("toString").setTextContent(rawNew.getToStringCheck().isSelected() + "");
+                        
+                        rawNew.hideLayout();
+                    } else {
+                        rawNew.showError();
+                    }
+                }
+            }
+        });
         
+        rawNew.getCancelBtn().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                rawNew.hideError();
+            }
+        });
+        
+        rawEdit.getOkBtn().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (rawEdit.getSpecialCheck().isSelected()) {
+                    if (!rawEdit.getExtensionFld().getText().isEmpty() && !rawEdit.getImportClassFld().getText().isEmpty()
+                            && !rawEdit.getClassFld().getText().isEmpty() && !rawEdit.getDeclarationFld().getText().isEmpty()) {
+
+                        raw.set(rawLts.getSelectedIndex(), new ListEntry("<html><body>"
+                                + "        <table>"
+                                + "            <tbody>"
+                                + "                <tr>"
+                                + "                    <td><b style=\"color:#EC407A;\">" + rawEdit.getExtensionFld().getText() + "</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>"
+                                + "                    <td>\n"
+                                + "                        <b style=\"color:#0D47A1;\">import </b>" + rawEdit.getImportClassFld().getText() + ";<br>"
+                                + (rawEdit.getClassFld().getText() + " ${key} = " + rawEdit.getDeclarationFld().getText() + ";").replace("${key}", "<b style=\"color:#00C853;\">${key}</b>").replace("${value}", "<b style=\"color:#00C853;\">${value}</b>")
+                                + "                    </td>"
+                                + "                    <td>\n"
+                                + (rawEdit.getToStringCheck().isSelected() ?  "<b style=\"color:#0D47A1;\">toString</b>" : "")
+                                + "                    </td>"        
+                                + "                </tr>"
+                                + "            </tbody>"
+                                + "        </table>"
+                                + "    </body></html>", new ImageIcon(this.getClass().getResource("/res/raw.png"))));
+
+                        xml.renameNode(Xml.clearListNode(xml.getDocument().getElementsByTagName("raw").item(0).getChildNodes()).item(rawLts.getSelectedIndex()).getNodeName(), rawEdit.getExtensionFld().getText());
+                        xml.getDocument().getElementsByTagName(rawEdit.getExtensionFld().getText()).item(0).setTextContent(rawEdit.getClassFld().getText() + " ${key} = " + rawEdit.getDeclarationFld().getText() + ";");
+                        ((Element) xml.getDocument().getElementsByTagName(rawEdit.getExtensionFld().getText()).item(0)).setAttribute("import","");
+                        xml.getDocument().getElementsByTagName(rawEdit.getExtensionFld().getText()).item(0).getAttributes().getNamedItem("import").setTextContent(rawEdit.getImportClassFld().getText());
+                        
+                        ((Element) xml.getDocument().getElementsByTagName(rawEdit.getExtensionFld().getText()).item(0)).setAttribute("toString","");
+                        xml.getDocument().getElementsByTagName(rawEdit.getExtensionFld().getText()).item(0).getAttributes().getNamedItem("toString").setTextContent(rawEdit.getToStringCheck().isSelected() + "");
+                        
+                        rawEdit.hideRaw();
+                        
+                    } else {
+                        rawEdit.showError();
+                    }
+                } else {
+                    if (!rawEdit.getExtensionFld().getText().isEmpty()) {
+                        raw.set(rawLts.getSelectedIndex() ,new ListEntry("<html><b style=\"color:#EC407A;\">" + rawEdit.getExtensionFld().getText() + "</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + (rawEdit.getToStringCheck().isSelected() ? "<b style=\"color:#0D47A1;\">toString</b>" : "") +"</html>", new ImageIcon(this.getClass().getResource("/res/raw.png"))));
+                        xml.renameNode(Xml.clearListNode(xml.getDocument().getElementsByTagName("raw").item(0).getChildNodes()).item(rawLts.getSelectedIndex()).getNodeName(), rawEdit.getExtensionFld().getText());
+                        xml.getDocument().getElementsByTagName(rawEdit.getExtensionFld().getText()).item(0).setTextContent("");
+                        ((Element) xml.getDocument().getElementsByTagName(rawEdit.getExtensionFld().getText()).item(0)).removeAttribute("import");
+                        
+                        ((Element) xml.getDocument().getElementsByTagName(rawEdit.getExtensionFld().getText()).item(0)).setAttribute("toString", "");
+                        xml.getDocument().getElementsByTagName(rawEdit.getExtensionFld().getText()).item(0).getAttributes().getNamedItem("toString").setTextContent(rawEdit.getToStringCheck().isSelected() + "");
+                        
+                        rawEdit.hideRaw();
+                    } else {
+                        rawEdit.showError();
+                    }
+                }
+            }
+        });
+        
+        rawEdit.getCancelBtn().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                rawEdit.hideRaw();
+            }
+        });
     }
 
     @Override
@@ -397,14 +529,29 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
 
         newRaw.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/new.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(newRaw, org.openide.util.NbBundle.getMessage(NdecVisualElement.class, "NdecVisualElement.newRaw.text")); // NOI18N
+        newRaw.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newRawActionPerformed(evt);
+            }
+        });
         rawMenu.add(newRaw);
 
         editRaw.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/edit.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(editRaw, org.openide.util.NbBundle.getMessage(NdecVisualElement.class, "NdecVisualElement.editRaw.text")); // NOI18N
+        editRaw.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editRawActionPerformed(evt);
+            }
+        });
         rawMenu.add(editRaw);
 
         deleteRaw.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/delete.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(deleteRaw, org.openide.util.NbBundle.getMessage(NdecVisualElement.class, "NdecVisualElement.deleteRaw.text")); // NOI18N
+        deleteRaw.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteRawActionPerformed(evt);
+            }
+        });
         rawMenu.add(deleteRaw);
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
@@ -702,6 +849,39 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
         rawMenu.show(rawLts, evt.getX(), evt.getY());
     }//GEN-LAST:event_rawLtsMousePressed
 
+    private void newRawActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newRawActionPerformed
+        rawNew.setVisible(true);
+    }//GEN-LAST:event_newRawActionPerformed
+
+    private void editRawActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editRawActionPerformed
+        if (!Xml.clearListNode(xml.getDocument().getElementsByTagName("raw").item(0).getChildNodes()).item(rawLts.getSelectedIndex()).getTextContent().isEmpty()) {
+            String[] cont = Xml.clearListNode(xml.getDocument().getElementsByTagName("raw").item(0).getChildNodes()).item(rawLts.getSelectedIndex()).getTextContent().replace("$",",").replace("{","|").split(" ,|key} = ");
+            rawEdit.setClassFld(cont[0]);
+            rawEdit.setDeclarationFld(cont[2].replace(",|","${").replace(";",""));
+            rawEdit.getSpecialCheck().setSelected(true);
+            rawEdit.specialCheckMouseClicked(null);
+        }
+        
+        if (Xml.clearListNode(xml.getDocument().getElementsByTagName("raw").item(0).getChildNodes()).item(rawLts.getSelectedIndex()).getAttributes().getNamedItem("import") != null) {
+            rawEdit.setImportClassFld(Xml.clearListNode(xml.getDocument().getElementsByTagName("raw").item(0).getChildNodes()).item(rawLts.getSelectedIndex()).getAttributes().getNamedItem("import").getTextContent());
+        }
+        
+        if (Xml.clearListNode(xml.getDocument().getElementsByTagName("raw").item(0).getChildNodes()).item(rawLts.getSelectedIndex()).getAttributes().getNamedItem("toString") != null) {
+            rawEdit.setToStringCheck(Xml.clearListNode(xml.getDocument().getElementsByTagName("raw").item(0).getChildNodes()).item(rawLts.getSelectedIndex()).getAttributes().getNamedItem("toString").getTextContent().equals("true"));
+            rawEdit.toStringCheckActionPerformed(null);
+        }
+        
+        rawEdit.setExtensionFld(Xml.clearListNode(xml.getDocument().getElementsByTagName("raw").item(0).getChildNodes()).item(rawLts.getSelectedIndex()).getNodeName());
+        rawEdit.setVisible(true);
+    }//GEN-LAST:event_editRawActionPerformed
+
+    private void deleteRawActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteRawActionPerformed
+        Element element = (Element) xml.getDocument().getElementsByTagName(Xml.clearListNode(xml.getDocument().getElementsByTagName("raw").item(0).getChildNodes()).item(rawLts.getSelectedIndex()).getNodeName()).item(0);
+        Node parent = element.getParentNode();
+        parent.removeChild(element);
+        raw.remove(rawLts.getSelectedIndex());
+    }//GEN-LAST:event_deleteRawActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem deleteDrawableMenu;
     private javax.swing.JMenuItem deleteLayoutMenu;
@@ -938,16 +1118,35 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
     }
     
     private void addRaw(NodeList list) {
-        
+
         raw.clear();
         
         for (int i = 0; i < list.getLength(); i++) {
             if (!list.item(i).getNodeName().equals("#text")) {
-                raw.addElement(new ListEntry("<html><b style=\"color:#EC407A;\">" + list.item(i).getNodeName() + "</b></html>", new ImageIcon(this.getClass().getResource("/res/raw.png"))));
+                if (list.item(i).getAttributes().getNamedItem("import") != null) {
+                    raw.addElement(new ListEntry("<html><body>" +
+                                                       "        <table>" +
+                                                       "            <tbody>" +
+                                                       "                <tr>" +
+                                                       "                    <td><b style=\"color:#EC407A;\">" + list.item(i).getNodeName() + "</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>" +
+                                                       "                    <td>\n" +
+                                                       "                        <b style=\"color:#0D47A1;\">import </b>" + list.item(i).getAttributes().getNamedItem("import").getTextContent() + ";<br>" +
+                                                                                list.item(i).getTextContent().replace("${key}","<b style=\"color:#00C853;\">${key}</b>").replace("${value}","<b style=\"color:#00C853;\">${value}</b>") +
+                                                       "                    </td>" +
+                                                       "                    <td>\n" +
+                                                       "                        <b style=\"color:#0D47A1;\">" + (list.item(i).getAttributes().getNamedItem("toString") != null ? (list.item(i).getAttributes().getNamedItem("toString").getTextContent().equals("true") ? "toString" : "") : "" ) + "</b>" +
+                                                       "                    </td>" +        
+                                                       "                </tr>" +
+                                                       "            </tbody>" +
+                                                       "        </table>" +
+                                                       "    </body></html>", new ImageIcon(this.getClass().getResource("/res/raw.png"))));
+                } else {
+                   raw.addElement(new ListEntry("<html><b style=\"color:#EC407A;\">" + list.item(i).getNodeName() + "</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + "<b style=\"color:#0D47A1;\">" + (list.item(i).getAttributes().getNamedItem("toString") != null ? (list.item(i).getAttributes().getNamedItem("toString").getTextContent().equals("true") ? "toString" : "") : "" ) + "</b></html>", new ImageIcon(this.getClass().getResource("/res/raw.png")))); 
+                }
             }
         }
         
         rawLts.setModel(raw);
+        
     }
-
 }

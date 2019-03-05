@@ -111,6 +111,9 @@
               <ResourceString bundle="org/javabrain/view/ndec/Bundle.properties" key="NdecVisualElement.newRaw.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="newRawActionPerformed"/>
+          </Events>
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="editRaw">
           <Properties>
@@ -121,6 +124,9 @@
               <ResourceString bundle="org/javabrain/view/ndec/Bundle.properties" key="NdecVisualElement.editRaw.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editRawActionPerformed"/>
+          </Events>
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="deleteRaw">
           <Properties>
@@ -131,6 +137,9 @@
               <ResourceString bundle="org/javabrain/view/ndec/Bundle.properties" key="NdecVisualElement.deleteRaw.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="deleteRawActionPerformed"/>
+          </Events>
         </MenuItem>
       </SubComponents>
     </Container>
