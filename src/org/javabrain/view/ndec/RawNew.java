@@ -17,7 +17,7 @@ public class RawNew extends javax.swing.JDialog {
         setIconImage(new ImageIcon(getClass().getResource("/res/netIcon.png")).getImage());
         setLocationRelativeTo(null);
         hideError();
-        setTitle("New drawable");
+        setTitle("New raw");
     }
 
     @SuppressWarnings("unchecked")

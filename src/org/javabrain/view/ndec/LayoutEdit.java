@@ -17,7 +17,7 @@ public class LayoutEdit extends javax.swing.JDialog {
         setIconImage(new ImageIcon(getClass().getResource("/res/netIcon.png")).getImage());
         setLocationRelativeTo(null);
         hideError();
-        setTitle("New drawable");
+        setTitle("Edit layout");
     }
 
     @SuppressWarnings("unchecked")
