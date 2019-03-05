@@ -48,8 +48,6 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
     private RawNew rawNew = new RawNew(null, true);
     private RawEdit rawEdit = new RawEdit(null, true);
     
-//    private ColorDec colorDec = new ColorDec(null, true);
-    
     public NdecVisualElement(Lookup lkp) throws IOException {
         obj = lkp.lookup(NdecDataObject.class);
         assert obj != null;
@@ -84,7 +82,6 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
         editRaw.setBackground(Color.white);
         deleteRaw.setText("<html><b style=\"color:red;\">Drop raw</b></html>");
         deleteRaw.setBackground(Color.white);
-        
         
         drawableNew.getOkBtn().addActionListener(new ActionListener() {
             @Override
@@ -310,8 +307,7 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
             }
         });
         
-        
-        rawNew.getOkBtn().addActionListener(new ActionListener() {
+                rawNew.getOkBtn().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (rawNew.getSpecialCheck().isSelected()) {
@@ -433,40 +429,6 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
                 rawEdit.hideRaw();
             }
         });
-        
-        
-//        colorDec.getOkBtn().addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                
-//                if (colorDec.getJavaRadio().isSelected()) {
-//                    colorLbl.setText("<html><b style=\"color:#757575;\">color    </b><b style=\"color:#0D47A1;\">{String}</b></html>");
-//                   
-//                    xml.getDocument().getElementsByTagName("color").item(0).setTextContent("");
-//                    ((Element) xml.getDocument().getElementsByTagName("color").item(0)).removeAttribute("import");
-//                        
-//                } else if (colorDec.getJavaSwingRadio().isSelected()) {
-//                    colorLbl.setText("<html><b style=\"color:#757575;\">color    </b><b style=\"color:#0D47A1;\">{Color:Swing}</b></html>");
-//                
-//                    xml.getDocument().getElementsByTagName("color").item(0).setTextContent("Color ${key} = Color.decode(\"${value}\");");
-//                    
-//                    ((Element) xml.getDocument().getElementsByTagName("color").item(0)).setAttribute("import", "");
-//                    xml.getDocument().getElementsByTagName("color").item(0).getAttributes().getNamedItem("import").setTextContent("java.awt.Color");
-//                    
-//                } else if (colorDec.getJavaFXRadio().isSelected()) {
-//                    colorLbl.setText("<html><b style=\"color:#757575;\">color    </b><b style=\"color:#0D47A1;\">{Color:FX}</b></html>");
-//                    
-//                    xml.getDocument().getElementsByTagName("color").item(0).setTextContent("Color ${key} = Color.web(\"${value}\");");
-//                    
-//                    ((Element) xml.getDocument().getElementsByTagName("color").item(0)).setAttribute("import", "");
-//                    xml.getDocument().getElementsByTagName("color").item(0).getAttributes().getNamedItem("import").setTextContent("import javafx.scene.paint.Color");
-//                    
-//                }
-//                
-//                colorDec.hideColor();
-//            }
-//        });
-        
     }
 
     @Override
@@ -507,7 +469,7 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
-        colorLbl = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         syncBnt4 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
 
@@ -706,14 +668,9 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
         org.openide.awt.Mnemonics.setLocalizedText(jLabel4, org.openide.util.NbBundle.getMessage(NdecVisualElement.class, "NdecVisualElement.jLabel4.text")); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(jButton3, org.openide.util.NbBundle.getMessage(NdecVisualElement.class, "NdecVisualElement.jButton3.text")); // NOI18N
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
 
-        colorLbl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/color.png"))); // NOI18N
-        org.openide.awt.Mnemonics.setLocalizedText(colorLbl, org.openide.util.NbBundle.getMessage(NdecVisualElement.class, "NdecVisualElement.colorLbl.text")); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/color.png"))); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel5, org.openide.util.NbBundle.getMessage(NdecVisualElement.class, "NdecVisualElement.jLabel5.text")); // NOI18N
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -726,7 +683,7 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
                 .addComponent(jLabel1)
                 .addGap(98, 98, 98))
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(colorLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton3)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -738,7 +695,7 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton3)
-                    .addComponent(colorLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -925,12 +882,7 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
         raw.remove(rawLts.getSelectedIndex());
     }//GEN-LAST:event_deleteRawActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-//        colorDec.showColor();
-    }//GEN-LAST:event_jButton3ActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel colorLbl;
     private javax.swing.JMenuItem deleteDrawableMenu;
     private javax.swing.JMenuItem deleteLayoutMenu;
     private javax.swing.JMenuItem deleteRaw;
@@ -944,6 +896,7 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -1073,18 +1026,6 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
             }
         } catch (IOException ex) {
             Exceptions.printStackTrace(ex);
-        }
-        
-        if (xml.getDocument().getElementsByTagName("color").item(0).getAttributes().getNamedItem("import") != null) {
-            if (xml.getDocument().getElementsByTagName("color").item(0).getAttributes().getNamedItem("import").getTextContent().contains("awt")) {
-                colorLbl.setText("<html><b style=\"color:#757575;\">color    </b><b style=\"color:#0D47A1;\">{Color:Swing}</b></html>");
-            } else if (xml.getDocument().getElementsByTagName("color").item(0).getAttributes().getNamedItem("import").getTextContent().contains("scene")) {
-                colorLbl.setText("<html><b style=\"color:#757575;\">color    </b><b style=\"color:#0D47A1;\">{Color:FX}</b></html>");
-            } else {
-                colorLbl.setText("<html><b style=\"color:#757575;\">color    </b><b style=\"color:#0D47A1;\">{Color:Custom}</b></html>");
-            }
-        } else {
-            colorLbl.setText("<html><b style=\"color:#757575;\">color    </b><b style=\"color:#0D47A1;\">{String}</b></html>");
         }
     }
 

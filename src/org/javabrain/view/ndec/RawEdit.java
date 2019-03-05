@@ -17,7 +17,7 @@ public class RawEdit extends javax.swing.JDialog {
         setIconImage(new ImageIcon(getClass().getResource("/res/netIcon.png")).getImage());
         setLocationRelativeTo(null);
         hideError();
-        setTitle("Edit Raw");
+        setTitle("New drawable");
     }
 
     @SuppressWarnings("unchecked")
