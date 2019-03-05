@@ -11,6 +11,7 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 import org.javabrain.api.data.Xml;
+import org.javabrain.api.io.File;
 import org.javabrain.model.ListEntry;
 import org.javabrain.model.ListEntryCellRenderer;
 import org.netbeans.core.spi.multiview.CloseOperationState;
@@ -21,6 +22,8 @@ import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
 import org.openide.util.NbBundle.Messages;
 import org.openide.windows.TopComponent;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 @MultiViewElement.Registration(displayName = "#LBL_Ndec_VISUAL", iconBase = "res/ndec.png", mimeType = "text/ndec+xml", persistenceType = TopComponent.PERSISTENCE_NEVER, preferredID = "NdecVisual", position = 2000)
@@ -38,7 +41,10 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
     
     private DrawableNew drawableNew = new DrawableNew(null, true);
     private DrawableEdit drawableEdit = new DrawableEdit(null, true);
-
+    
+    private LayoutNew layoutNew = new LayoutNew(null, true);
+    private LayoutEdit layoutEdit = new LayoutEdit(null, true);
+    
     public NdecVisualElement(Lookup lkp) throws IOException {
         obj = lkp.lookup(NdecDataObject.class);
         assert obj != null;
@@ -49,8 +55,8 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
         layout = new DefaultListModel();
         raw = new DefaultListModel();
         var = new DefaultListModel();
-   
-        jPopupMenu1.setBackground(Color.white);
+        
+        drawableMenu.setBackground(Color.white);
         newDrawableMenu.setText("<html><b style=\"color:green;\">New drawable</b></html>");
         newDrawableMenu.setBackground(Color.white);
         editDrawableMenu.setText("<html><b style=\"color:orange;\">Edit drawable</b></html>");
@@ -58,34 +64,49 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
         deleteDrawableMenu.setText("<html><b style=\"color:red;\">Drop drawable</b></html>");
         deleteDrawableMenu.setBackground(Color.white);
         
+        layoutMenu.setBackground(Color.white);
+        newLayoutMenu.setText("<html><b style=\"color:green;\">New layout</b></html>");
+        newLayoutMenu.setBackground(Color.white);
+        editLayoutMenu.setText("<html><b style=\"color:orange;\">Edit layout</b></html>");
+        editLayoutMenu.setBackground(Color.white);
+        deleteLayoutMenu.setText("<html><b style=\"color:red;\">Drop layout</b></html>");
+        deleteLayoutMenu.setBackground(Color.white);
+        
         drawableNew.getOkBtn().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (drawableNew.getSpecialCheck().isSelected()) {
                     if (!drawableNew.getExtensionFld().getText().isEmpty() && !drawableNew.getImportClassFld().getText().isEmpty()
-                        && !drawableNew.getClassFld().getText().isEmpty() && !drawableNew.getDeclarationFld().getText().isEmpty()) {
+                            && !drawableNew.getClassFld().getText().isEmpty() && !drawableNew.getDeclarationFld().getText().isEmpty()) {
 
-                        drawable.addElement(new ListEntry("<html><body>" +
-                                                           "        <table>" +
-                                                           "            <tbody>" +
-                                                           "                <tr>" +
-                                                           "                    <td><b style=\"color:#7E57C2;\">" + drawableNew.getExtensionFld().getText() + "</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>" +
-                                                           "                    <td>\n" +
-                                                           "                        <b style=\"color:#0D47A1;\">import </b>" + drawableNew.getImportClassFld().getText() + ";<br>" +
-                                                                                    (drawableNew.getClassFld().getText() +" ${key} = "+ drawableNew.getDeclarationFld().getText() + ";").replace("${key}","<b style=\"color:#00C853;\">${key}</b>").replace("${value}","<b style=\"color:#00C853;\">${value}</b>") +
-                                                           "                    </td>" +
-                                                           "                </tr>" +
-                                                           "            </tbody>" +
-                                                           "        </table>" +
-                                                           "    </body></html>", new ImageIcon(this.getClass().getResource("/res/img.png"))));
-                        drawableNew.setVisible(false);
+                        drawable.addElement(new ListEntry("<html><body>"
+                                + "        <table>"
+                                + "            <tbody>"
+                                + "                <tr>"
+                                + "                    <td><b style=\"color:#7E57C2;\">" + drawableNew.getExtensionFld().getText() + "</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>"
+                                + "                    <td>\n"
+                                + "                        <b style=\"color:#0D47A1;\">import </b>" + drawableNew.getImportClassFld().getText() + ";<br>"
+                                + (drawableNew.getClassFld().getText() + " ${key} = " + drawableNew.getDeclarationFld().getText() + ";").replace("${key}", "<b style=\"color:#00C853;\">${key}</b>").replace("${value}", "<b style=\"color:#00C853;\">${value}</b>")
+                                + "                    </td>"
+                                + "                </tr>"
+                                + "            </tbody>"
+                                + "        </table>"
+                                + "    </body></html>", new ImageIcon(this.getClass().getResource("/res/img.png"))));
+                        
+                        xml.getDocument().getElementsByTagName("drawable").item(0).appendChild(xml.getDocument().createElement(drawableNew.getExtensionFld().getText()));
+                        xml.getDocument().getElementsByTagName(drawableNew.getExtensionFld().getText()).item(0).setTextContent(drawableNew.getClassFld().getText() + " ${key} = " + drawableNew.getDeclarationFld().getText() + ";");
+                        ((Element) xml.getDocument().getElementsByTagName(drawableNew.getExtensionFld().getText()).item(0)).setAttribute("import","");
+                        xml.getDocument().getElementsByTagName(drawableNew.getExtensionFld().getText()).item(0).getAttributes().getNamedItem("import").setTextContent(drawableNew.getImportClassFld().getText());
+                        drawableNew.hideDrawable();
+                        
                     } else {
                         drawableNew.showError();
                     }
                 } else {
                     if (!drawableNew.getExtensionFld().getText().isEmpty()) {
-                        drawable.addElement(new ListEntry("<html><b style=\"color:#7E57C2;\">" + drawableNew.getExtensionFld().getText() + "</b></html>", new ImageIcon(this.getClass().getResource("/res/img.png"))));
-                        drawableNew.setVisible(false);
+                        drawable.addElement(new ListEntry("<html><b style=\"color:#7E57C2;\">" + drawableNew.getExtensionFld().getText() + "</b></html>", new ImageIcon(this.getClass().getResource("/res/img.png"))));                        
+                        xml.getDocument().getElementsByTagName("drawable").item(0).appendChild(xml.getDocument().createElement(drawableNew.getExtensionFld().getText()));
+                        drawableNew.hideDrawable();
                     } else {
                         drawableNew.showError();
                     }
@@ -100,12 +121,182 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
             }
         });
         
+        drawableEdit.getOkBtn().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (drawableEdit.getSpecialCheck().isSelected()) {
+                    if (!drawableEdit.getExtensionFld().getText().isEmpty() && !drawableEdit.getImportClassFld().getText().isEmpty()
+                            && !drawableEdit.getClassFld().getText().isEmpty() && !drawableEdit.getDeclarationFld().getText().isEmpty()) {
+
+                        drawable.set(drawableLts.getSelectedIndex(), new ListEntry("<html><body>"
+                                + "        <table>"
+                                + "            <tbody>"
+                                + "                <tr>"
+                                + "                    <td><b style=\"color:#7E57C2;\">" + drawableEdit.getExtensionFld().getText() + "</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>"
+                                + "                    <td>\n"
+                                + "                        <b style=\"color:#0D47A1;\">import </b>" + drawableEdit.getImportClassFld().getText() + ";<br>"
+                                + (drawableEdit.getClassFld().getText() + " ${key} = " + drawableEdit.getDeclarationFld().getText() + ";").replace("${key}", "<b style=\"color:#00C853;\">${key}</b>").replace("${value}", "<b style=\"color:#00C853;\">${value}</b>")
+                                + "                    </td>"
+                                + "                </tr>"
+                                + "            </tbody>"
+                                + "        </table>"
+                                + "    </body></html>", new ImageIcon(this.getClass().getResource("/res/img.png"))));
+                       
+                        xml.renameNode(Xml.clearListNode(xml.getDocument().getElementsByTagName("drawable").item(0).getChildNodes()).item(drawableLts.getSelectedIndex()).getNodeName(), drawableEdit.getExtensionFld().getText());
+                        xml.getDocument().getElementsByTagName(drawableEdit.getExtensionFld().getText()).item(0).setTextContent(drawableEdit.getClassFld().getText() + " ${key} = " + drawableEdit.getDeclarationFld().getText() + ";");
+                        ((Element) xml.getDocument().getElementsByTagName(drawableEdit.getExtensionFld().getText()).item(0)).setAttribute("import","");
+                        xml.getDocument().getElementsByTagName(drawableEdit.getExtensionFld().getText()).item(0).getAttributes().getNamedItem("import").setTextContent(drawableEdit.getImportClassFld().getText());
+                        drawableEdit.hideDrawable();
+                        
+                    } else {
+                        drawableEdit.showError();
+                    }
+                } else {
+                    if (!drawableEdit.getExtensionFld().getText().isEmpty()) {
+                        drawable.set(drawableLts.getSelectedIndex(), new ListEntry("<html><b style=\"color:#7E57C2;\">" + drawableEdit.getExtensionFld().getText() + "</b></html>", new ImageIcon(this.getClass().getResource("/res/img.png"))));                        
+                        xml.renameNode(Xml.clearListNode(xml.getDocument().getElementsByTagName("drawable").item(0).getChildNodes()).item(drawableLts.getSelectedIndex()).getNodeName(), drawableEdit.getExtensionFld().getText());
+                        xml.getDocument().getElementsByTagName(drawableEdit.getExtensionFld().getText()).item(0).setTextContent("");
+                        ((Element) xml.getDocument().getElementsByTagName(drawableEdit.getExtensionFld().getText()).item(0)).removeAttribute("import");
+                        drawableEdit.hideDrawable();
+                    } else {
+                        drawableEdit.showError();
+                    }
+                }
+            }
+        });
+        
         drawableEdit.getCancelBtn().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 drawableEdit.hideDrawable();
             }
         });
+        
+        
+        layoutNew.getOkBtn().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (layoutNew.getSpecialCheck().isSelected()) {
+                    
+                    if (!layoutNew.getExtensionFld().getText().isEmpty() && !layoutNew.getImportClassFld().getText().isEmpty()
+                            && !layoutNew.getClassFld().getText().isEmpty() && !layoutNew.getDeclarationFld().getText().isEmpty()) {
+
+                        layout.addElement(new ListEntry("<html><body>"
+                                + "        <table>"
+                                + "            <tbody>"
+                                + "                <tr>"
+                                + "                    <td><b style=\"color:#FFA726;\">" + layoutNew.getExtensionFld().getText() + "</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>"
+                                + "                    <td>\n"
+                                + "                        <b style=\"color:#0D47A1;\">import </b>" + layoutNew.getImportClassFld().getText() + ";<br>"
+                                + (layoutNew.getClassFld().getText() + " ${key} = " + layoutNew.getDeclarationFld().getText() + ";").replace("${key}", "<b style=\"color:#00C853;\">${key}</b>").replace("${value}", "<b style=\"color:#00C853;\">${value}</b>")
+                                + "                    </td>"
+                                + "                    <td>\n"
+                                + (layoutNew.getToStringCheck().isSelected() ?  "<b style=\"color:#0D47A1;\">toString</b>" : "")
+                                + "                    </td>"
+                                + "                </tr>"
+                                + "            </tbody>"
+                                + "        </table>"
+                                + "    </body></html>", new ImageIcon(this.getClass().getResource("/res/layout.png"))));
+
+                        xml.getDocument().getElementsByTagName("layout").item(0).appendChild(xml.getDocument().createElement(layoutNew.getExtensionFld().getText()));
+                        xml.getDocument().getElementsByTagName(layoutNew.getExtensionFld().getText()).item(0).setTextContent(layoutNew.getClassFld().getText() + " ${key} = " + layoutNew.getDeclarationFld().getText() + ";");
+                        ((Element) xml.getDocument().getElementsByTagName(layoutNew.getExtensionFld().getText()).item(0)).setAttribute("import", "");
+                        xml.getDocument().getElementsByTagName(layoutNew.getExtensionFld().getText()).item(0).getAttributes().getNamedItem("import").setTextContent(layoutNew.getImportClassFld().getText());
+                        
+                        ((Element) xml.getDocument().getElementsByTagName(layoutNew.getExtensionFld().getText()).item(0)).setAttribute("toString", "");
+                        xml.getDocument().getElementsByTagName(layoutNew.getExtensionFld().getText()).item(0).getAttributes().getNamedItem("toString").setTextContent(layoutNew.getToStringCheck().isSelected() + "");
+                        
+                        layoutNew.hideLayout();
+
+                    } else {
+                        layoutNew.showError();
+                    }
+                } else {
+                    if (!layoutNew.getExtensionFld().getText().isEmpty()) {
+                        layout.addElement(new ListEntry("<html><b style=\"color:#FFA726;\">" + layoutNew.getExtensionFld().getText() + "</b></html>", new ImageIcon(this.getClass().getResource("/res/layout.png"))));
+                        xml.getDocument().getElementsByTagName("layout").item(0).appendChild(xml.getDocument().createElement(layoutNew.getExtensionFld().getText()));
+                       
+                        ((Element) xml.getDocument().getElementsByTagName(layoutNew.getExtensionFld().getText()).item(0)).setAttribute("toString", "");
+                        xml.getDocument().getElementsByTagName(layoutNew.getExtensionFld().getText()).item(0).getAttributes().getNamedItem("toString").setTextContent(layoutNew.getToStringCheck().isSelected() + "");
+                        
+                        layoutNew.hideLayout();
+                    } else {
+                        layoutNew.showError();
+                    }
+                }
+            }
+        });
+        
+        layoutNew.getCancelBtn().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                layoutNew.hideError();
+            }
+        });
+        
+        layoutEdit.getOkBtn().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (layoutEdit.getSpecialCheck().isSelected()) {
+                    if (!layoutEdit.getExtensionFld().getText().isEmpty() && !layoutEdit.getImportClassFld().getText().isEmpty()
+                            && !layoutEdit.getClassFld().getText().isEmpty() && !layoutEdit.getDeclarationFld().getText().isEmpty()) {
+
+                        layout.set(layoutLts.getSelectedIndex(), new ListEntry("<html><body>"
+                                + "        <table>"
+                                + "            <tbody>"
+                                + "                <tr>"
+                                + "                    <td><b style=\"color:#FFA726;\">" + layoutEdit.getExtensionFld().getText() + "</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>"
+                                + "                    <td>\n"
+                                + "                        <b style=\"color:#0D47A1;\">import </b>" + layoutEdit.getImportClassFld().getText() + ";<br>"
+                                + (layoutEdit.getClassFld().getText() + " ${key} = " + layoutEdit.getDeclarationFld().getText() + ";").replace("${key}", "<b style=\"color:#00C853;\">${key}</b>").replace("${value}", "<b style=\"color:#00C853;\">${value}</b>")
+                                + "                    </td>"
+                                + "                    <td>\n"
+                                + (layoutEdit.getToStringCheck().isSelected() ?  "<b style=\"color:#0D47A1;\">toString</b>" : "")
+                                + "                    </td>"        
+                                + "                </tr>"
+                                + "            </tbody>"
+                                + "        </table>"
+                                + "    </body></html>", new ImageIcon(this.getClass().getResource("/res/layout.png"))));
+
+                        xml.renameNode(Xml.clearListNode(xml.getDocument().getElementsByTagName("layout").item(0).getChildNodes()).item(layoutLts.getSelectedIndex()).getNodeName(), layoutEdit.getExtensionFld().getText());
+                        xml.getDocument().getElementsByTagName(layoutEdit.getExtensionFld().getText()).item(0).setTextContent(layoutEdit.getClassFld().getText() + " ${key} = " + layoutEdit.getDeclarationFld().getText() + ";");
+                        ((Element) xml.getDocument().getElementsByTagName(layoutEdit.getExtensionFld().getText()).item(0)).setAttribute("import","");
+                        xml.getDocument().getElementsByTagName(layoutEdit.getExtensionFld().getText()).item(0).getAttributes().getNamedItem("import").setTextContent(layoutEdit.getImportClassFld().getText());
+                        
+                        ((Element) xml.getDocument().getElementsByTagName(layoutEdit.getExtensionFld().getText()).item(0)).setAttribute("toString","");
+                        xml.getDocument().getElementsByTagName(layoutEdit.getExtensionFld().getText()).item(0).getAttributes().getNamedItem("toString").setTextContent(layoutEdit.getToStringCheck().isSelected() + "");
+                        
+                        layoutEdit.hideLayout();
+                        
+                    } else {
+                        layoutEdit.showError();
+                    }
+                } else {
+                    if (!layoutEdit.getExtensionFld().getText().isEmpty()) {
+                        layout.set(layoutLts.getSelectedIndex() ,new ListEntry("<html><b style=\"color:#FFA726;\">" + layoutEdit.getExtensionFld().getText() + "</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + (layoutEdit.getToStringCheck().isSelected() ? "<b style=\"color:#0D47A1;\">toString</b>" : "") +"</html>", new ImageIcon(this.getClass().getResource("/res/layout.png"))));
+                        xml.renameNode(Xml.clearListNode(xml.getDocument().getElementsByTagName("layout").item(0).getChildNodes()).item(layoutLts.getSelectedIndex()).getNodeName(), layoutEdit.getExtensionFld().getText());
+                        xml.getDocument().getElementsByTagName(layoutEdit.getExtensionFld().getText()).item(0).setTextContent("");
+                        ((Element) xml.getDocument().getElementsByTagName(layoutEdit.getExtensionFld().getText()).item(0)).removeAttribute("import");
+                        
+                        ((Element) xml.getDocument().getElementsByTagName(layoutEdit.getExtensionFld().getText()).item(0)).setAttribute("toString", "");
+                        xml.getDocument().getElementsByTagName(layoutEdit.getExtensionFld().getText()).item(0).getAttributes().getNamedItem("toString").setTextContent(layoutEdit.getToStringCheck().isSelected() + "");
+                        
+                        layoutEdit.hideLayout();
+                    } else {
+                        layoutEdit.showError();
+                    }
+                }
+            }
+        });
+        
+        layoutEdit.getCancelBtn().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                layoutEdit.hideLayout();
+            }
+        });
+        
+        
     }
 
     @Override
@@ -116,10 +307,18 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPopupMenu1 = new javax.swing.JPopupMenu();
+        drawableMenu = new javax.swing.JPopupMenu();
         newDrawableMenu = new javax.swing.JMenuItem();
         editDrawableMenu = new javax.swing.JMenuItem();
         deleteDrawableMenu = new javax.swing.JMenuItem();
+        layoutMenu = new javax.swing.JPopupMenu();
+        newLayoutMenu = new javax.swing.JMenuItem();
+        editLayoutMenu = new javax.swing.JMenuItem();
+        deleteLayoutMenu = new javax.swing.JMenuItem();
+        rawMenu = new javax.swing.JPopupMenu();
+        newRaw = new javax.swing.JMenuItem();
+        editRaw = new javax.swing.JMenuItem();
+        deleteRaw = new javax.swing.JMenuItem();
         jScrollPane5 = new javax.swing.JScrollPane();
         jPanel5 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
@@ -149,7 +348,7 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
                 newDrawableMenuActionPerformed(evt);
             }
         });
-        jPopupMenu1.add(newDrawableMenu);
+        drawableMenu.add(newDrawableMenu);
 
         editDrawableMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/edit.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(editDrawableMenu, org.openide.util.NbBundle.getMessage(NdecVisualElement.class, "NdecVisualElement.editDrawableMenu.text")); // NOI18N
@@ -158,7 +357,7 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
                 editDrawableMenuActionPerformed(evt);
             }
         });
-        jPopupMenu1.add(editDrawableMenu);
+        drawableMenu.add(editDrawableMenu);
 
         deleteDrawableMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/delete.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(deleteDrawableMenu, org.openide.util.NbBundle.getMessage(NdecVisualElement.class, "NdecVisualElement.deleteDrawableMenu.text")); // NOI18N
@@ -167,7 +366,46 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
                 deleteDrawableMenuActionPerformed(evt);
             }
         });
-        jPopupMenu1.add(deleteDrawableMenu);
+        drawableMenu.add(deleteDrawableMenu);
+
+        newLayoutMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/new.png"))); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(newLayoutMenu, org.openide.util.NbBundle.getMessage(NdecVisualElement.class, "NdecVisualElement.newLayoutMenu.text")); // NOI18N
+        newLayoutMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newLayoutMenuActionPerformed(evt);
+            }
+        });
+        layoutMenu.add(newLayoutMenu);
+
+        editLayoutMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/edit.png"))); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(editLayoutMenu, org.openide.util.NbBundle.getMessage(NdecVisualElement.class, "NdecVisualElement.editLayoutMenu.text")); // NOI18N
+        editLayoutMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editLayoutMenuActionPerformed(evt);
+            }
+        });
+        layoutMenu.add(editLayoutMenu);
+
+        deleteLayoutMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/delete.png"))); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(deleteLayoutMenu, org.openide.util.NbBundle.getMessage(NdecVisualElement.class, "NdecVisualElement.deleteLayoutMenu.text")); // NOI18N
+        deleteLayoutMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteLayoutMenuActionPerformed(evt);
+            }
+        });
+        layoutMenu.add(deleteLayoutMenu);
+
+        newRaw.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/new.png"))); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(newRaw, org.openide.util.NbBundle.getMessage(NdecVisualElement.class, "NdecVisualElement.newRaw.text")); // NOI18N
+        rawMenu.add(newRaw);
+
+        editRaw.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/edit.png"))); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(editRaw, org.openide.util.NbBundle.getMessage(NdecVisualElement.class, "NdecVisualElement.editRaw.text")); // NOI18N
+        rawMenu.add(editRaw);
+
+        deleteRaw.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/delete.png"))); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(deleteRaw, org.openide.util.NbBundle.getMessage(NdecVisualElement.class, "NdecVisualElement.deleteRaw.text")); // NOI18N
+        rawMenu.add(deleteRaw);
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -208,6 +446,12 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
 
         layoutLts.setCellRenderer(new ListEntryCellRenderer());
         layoutLts.setSelectionBackground(new java.awt.Color(204, 204, 204));
+        layoutLts.setSelectionForeground(new java.awt.Color(0, 0, 0));
+        layoutLts.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                layoutLtsMousePressed(evt);
+            }
+        });
         jScrollPane3.setViewportView(layoutLts);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -231,6 +475,12 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
 
         rawLts.setCellRenderer(new ListEntryCellRenderer());
         rawLts.setSelectionBackground(new java.awt.Color(204, 204, 204));
+        rawLts.setSelectionForeground(new java.awt.Color(0, 0, 0));
+        rawLts.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                rawLtsMousePressed(evt);
+            }
+        });
         jScrollPane2.setViewportView(rawLts);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -374,15 +624,19 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
     }//GEN-LAST:event_dynamicLstMouseClicked
 
     private void syncBnt4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_syncBnt4ActionPerformed
-        
+        File file = new File(obj.getPrimaryFile().getPath());
+        file.writerAll(xml.format());
     }//GEN-LAST:event_syncBnt4ActionPerformed
 
     private void drawableLtsMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_drawableLtsMousePressed
-        jPopupMenu1.show(drawableLts, evt.getX(), evt.getY());
+        drawableMenu.show(drawableLts, evt.getX(), evt.getY());
     }//GEN-LAST:event_drawableLtsMousePressed
 
     private void deleteDrawableMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteDrawableMenuActionPerformed
-        // TODO add your handling code here:
+        Element element = (Element) xml.getDocument().getElementsByTagName(Xml.clearListNode(xml.getDocument().getElementsByTagName("drawable").item(0).getChildNodes()).item(drawableLts.getSelectedIndex()).getNodeName()).item(0);
+        Node parent = element.getParentNode();
+        parent.removeChild(element);
+        drawable.remove(drawableLts.getSelectedIndex());
     }//GEN-LAST:event_deleteDrawableMenuActionPerformed
 
     private void newDrawableMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newDrawableMenuActionPerformed
@@ -390,14 +644,74 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
     }//GEN-LAST:event_newDrawableMenuActionPerformed
 
     private void editDrawableMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editDrawableMenuActionPerformed
+        
+        if (!Xml.clearListNode(xml.getDocument().getElementsByTagName("drawable").item(0).getChildNodes()).item(drawableLts.getSelectedIndex()).getTextContent().isEmpty()) {
+            String[] cont = Xml.clearListNode(xml.getDocument().getElementsByTagName("drawable").item(0).getChildNodes()).item(drawableLts.getSelectedIndex()).getTextContent().replace("$",",").replace("{","|").split(" ,|key} = ");
+            drawableEdit.setClassFld(cont[0]);
+            drawableEdit.setDeclarationFld(cont[2].replace(",|","${").replace(";",""));
+            drawableEdit.getSpecialCheck().setSelected(true);
+            drawableEdit.specialCheckMouseClicked(null);
+        }
+        
+        if (Xml.clearListNode(xml.getDocument().getElementsByTagName("drawable").item(0).getChildNodes()).item(drawableLts.getSelectedIndex()).getAttributes().getNamedItem("import") != null) {
+            drawableEdit.setImportClassFld(Xml.clearListNode(xml.getDocument().getElementsByTagName("drawable").item(0).getChildNodes()).item(drawableLts.getSelectedIndex()).getAttributes().getNamedItem("import").getTextContent());
+        }
+        
+        drawableEdit.setExtensionFld(Xml.clearListNode(xml.getDocument().getElementsByTagName("drawable").item(0).getChildNodes()).item(drawableLts.getSelectedIndex()).getNodeName());
         drawableEdit.setVisible(true);
     }//GEN-LAST:event_editDrawableMenuActionPerformed
 
+    private void layoutLtsMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_layoutLtsMousePressed
+        layoutMenu.show(layoutLts, evt.getX(), evt.getY());
+    }//GEN-LAST:event_layoutLtsMousePressed
+
+    private void newLayoutMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newLayoutMenuActionPerformed
+        layoutNew.setVisible(true);
+    }//GEN-LAST:event_newLayoutMenuActionPerformed
+
+    private void deleteLayoutMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteLayoutMenuActionPerformed
+        Element element = (Element) xml.getDocument().getElementsByTagName(Xml.clearListNode(xml.getDocument().getElementsByTagName("layout").item(0).getChildNodes()).item(layoutLts.getSelectedIndex()).getNodeName()).item(0);
+        Node parent = element.getParentNode();
+        parent.removeChild(element);
+        layout.remove(layoutLts.getSelectedIndex());
+    }//GEN-LAST:event_deleteLayoutMenuActionPerformed
+
+    private void editLayoutMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editLayoutMenuActionPerformed
+        if (!Xml.clearListNode(xml.getDocument().getElementsByTagName("layout").item(0).getChildNodes()).item(layoutLts.getSelectedIndex()).getTextContent().isEmpty()) {
+            String[] cont = Xml.clearListNode(xml.getDocument().getElementsByTagName("layout").item(0).getChildNodes()).item(layoutLts.getSelectedIndex()).getTextContent().replace("$",",").replace("{","|").split(" ,|key} = ");
+            layoutEdit.setClassFld(cont[0]);
+            layoutEdit.setDeclarationFld(cont[2].replace(",|","${").replace(";",""));
+            layoutEdit.getSpecialCheck().setSelected(true);
+            layoutEdit.specialCheckMouseClicked(null);
+        }
+        
+        if (Xml.clearListNode(xml.getDocument().getElementsByTagName("layout").item(0).getChildNodes()).item(layoutLts.getSelectedIndex()).getAttributes().getNamedItem("import") != null) {
+            layoutEdit.setImportClassFld(Xml.clearListNode(xml.getDocument().getElementsByTagName("layout").item(0).getChildNodes()).item(layoutLts.getSelectedIndex()).getAttributes().getNamedItem("import").getTextContent());
+        }
+        
+        if (Xml.clearListNode(xml.getDocument().getElementsByTagName("layout").item(0).getChildNodes()).item(layoutLts.getSelectedIndex()).getAttributes().getNamedItem("toString") != null) {
+            layoutEdit.setToStringCheck(Xml.clearListNode(xml.getDocument().getElementsByTagName("layout").item(0).getChildNodes()).item(layoutLts.getSelectedIndex()).getAttributes().getNamedItem("toString").getTextContent().equals("true"));
+            layoutEdit.toStringCheckActionPerformed(null);
+        }
+        
+        layoutEdit.setExtensionFld(Xml.clearListNode(xml.getDocument().getElementsByTagName("layout").item(0).getChildNodes()).item(layoutLts.getSelectedIndex()).getNodeName());
+        layoutEdit.setVisible(true);
+    }//GEN-LAST:event_editLayoutMenuActionPerformed
+
+    private void rawLtsMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rawLtsMousePressed
+        rawMenu.show(rawLts, evt.getX(), evt.getY());
+    }//GEN-LAST:event_rawLtsMousePressed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem deleteDrawableMenu;
+    private javax.swing.JMenuItem deleteLayoutMenu;
+    private javax.swing.JMenuItem deleteRaw;
     private javax.swing.JList<String> drawableLts;
+    private javax.swing.JPopupMenu drawableMenu;
     private javax.swing.JList<String> dynamicLst;
     private javax.swing.JMenuItem editDrawableMenu;
+    private javax.swing.JMenuItem editLayoutMenu;
+    private javax.swing.JMenuItem editRaw;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
@@ -409,15 +723,18 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JList<String> layoutLts;
+    private javax.swing.JPopupMenu layoutMenu;
     private javax.swing.JMenuItem newDrawableMenu;
+    private javax.swing.JMenuItem newLayoutMenu;
+    private javax.swing.JMenuItem newRaw;
     private javax.swing.JList<String> rawLts;
+    private javax.swing.JPopupMenu rawMenu;
     private javax.swing.JButton syncBnt4;
     // End of variables declaration//GEN-END:variables
     
@@ -453,7 +770,7 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
     public void componentShowing() {
         try {
             Object o = obj.getPrimaryFile().asText();
-            Xml xml = new Xml(o);
+            xml = new Xml(o);
             if (xml.isValid()) {
                
                 addDrawables(xml.getElementsByTagName("drawable").item(0).getChildNodes()); 
@@ -594,7 +911,26 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
         
         for (int i = 0; i < list.getLength(); i++) {
             if (!list.item(i).getNodeName().equals("#text")) {
-                layout.addElement(new ListEntry("<html><b style=\"color:#FFA726;\">" + list.item(i).getNodeName() + "</b></html>", new ImageIcon(this.getClass().getResource("/res/layout.png"))));
+                if (list.item(i).getAttributes().getNamedItem("import") != null) {
+                    layout.addElement(new ListEntry("<html><body>" +
+                                                       "        <table>" +
+                                                       "            <tbody>" +
+                                                       "                <tr>" +
+                                                       "                    <td><b style=\"color:#FFA726;\">" + list.item(i).getNodeName() + "</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>" +
+                                                       "                    <td>\n" +
+                                                       "                        <b style=\"color:#0D47A1;\">import </b>" + list.item(i).getAttributes().getNamedItem("import").getTextContent() + ";<br>" +
+                                                                                list.item(i).getTextContent().replace("${key}","<b style=\"color:#00C853;\">${key}</b>").replace("${value}","<b style=\"color:#00C853;\">${value}</b>") +
+                                                       "                    </td>" +
+                                                       "                    <td>\n" +
+                                                       "                        <b style=\"color:#0D47A1;\">" + (list.item(i).getAttributes().getNamedItem("toString") != null ? (list.item(i).getAttributes().getNamedItem("toString").getTextContent().equals("true") ? "toString" : "") : "" ) + "</b>" +
+                                                       "                    </td>" +        
+                                                       "                </tr>" +
+                                                       "            </tbody>" +
+                                                       "        </table>" +
+                                                       "    </body></html>", new ImageIcon(this.getClass().getResource("/res/layout.png"))));
+                } else {
+                   layout.addElement(new ListEntry("<html><b style=\"color:#FFA726;\">" + list.item(i).getNodeName() + "</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + "<b style=\"color:#0D47A1;\">" + (list.item(i).getAttributes().getNamedItem("toString") != null ? (list.item(i).getAttributes().getNamedItem("toString").getTextContent().equals("true") ? "toString" : "") : "" ) + "</b></html>", new ImageIcon(this.getClass().getResource("/res/layout.png")))); 
+                }
             }
         }
         

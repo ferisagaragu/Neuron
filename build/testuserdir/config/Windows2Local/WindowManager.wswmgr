@@ -3,10 +3,10 @@
 <windowmanager version="2.1">
     <main-window>
   <joined-properties
-   x="-1546"
-   y="-294"
-   width="988"
-   height="961"
+   x="-7"
+   y="0"
+   width="963"
+   height="735"
    relative-x="0.0"
    relative-y="0.0"
    relative-width="0.0"
@@ -45,7 +45,6 @@
     <toolbar configuration="Standard" preferred-icon-size="24"/>
     <tc-list>
   <tc-id id="MultiView-Ndec#007CNdF3CFFF4Ftext#002Ehistory#007C"/>
-  <tc-id id="Welcome"/>
   <tc-id id="projectTab_tc"/>
   <tc-id id="services"/>
   <tc-id id="projectTabLogical_tc"/>

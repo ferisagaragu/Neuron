@@ -6,6 +6,6 @@
   <state type="joined"  />
   <bounds x="0" y="0" width="0" height="0" />
   <frame state="0"/>
-    <active-tc  id="Welcome"  prev-id="MultiView-Nmet#007CNm307A2D41xt#002Ehistory#007C_1" />
+    <active-tc  id="MultiView-Ndec#007CNdF3CFFF4Ftext#002Ehistory#007C"  prev-id="MultiView-Ndec#007CNdF3CFFF4Ftext#002Ehistory#007C" />
     <empty-behavior permanent="true"/>
 </mode>

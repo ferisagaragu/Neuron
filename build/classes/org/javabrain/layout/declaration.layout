@@ -9,10 +9,10 @@
     </drawable>
 
     <layout>
-        <fxml/>
-        <xml/>
-        <html/>
-        <xhtml/>
+        <fxml toString="false"/>
+        <xml toString="false"/>
+        <html toString="false"/>
+        <xhtml toString="false"/>
     </layout>
 
     <raw>

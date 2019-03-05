@@ -19,7 +19,7 @@ public class DrawableEdit extends javax.swing.JDialog implements WindowListener 
         setIconImage(new ImageIcon(getClass().getResource("/res/netIcon.png")).getImage());
         setLocationRelativeTo(null);
         hideError();
-        setTitle("Edit drawable");
+        setTitle("New drawable");
     }
 
     @SuppressWarnings("unchecked")
@@ -39,6 +39,7 @@ public class DrawableEdit extends javax.swing.JDialog implements WindowListener 
         declarationFld = new javax.swing.JTextField();
         messageLbl = new javax.swing.JLabel();
         breackLbl = new javax.swing.JLabel();
+        hintImport = new javax.swing.JComboBox<>();
         cancelBtn = new javax.swing.JButton();
         okBtn = new javax.swing.JButton();
         errorLbl = new javax.swing.JLabel();
@@ -47,12 +48,12 @@ public class DrawableEdit extends javax.swing.JDialog implements WindowListener 
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        extensionFld.setText(org.openide.util.NbBundle.getMessage(DrawableEdit.class, "DrawableEdit.extensionFld.text")); // NOI18N
+        extensionFld.setText(org.openide.util.NbBundle.getMessage(DrawableEdit.class, "DrawableEdit.extensionFld.text_1")); // NOI18N
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel2, org.openide.util.NbBundle.getMessage(DrawableEdit.class, "DrawableEdit.jLabel2.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel2, org.openide.util.NbBundle.getMessage(DrawableEdit.class, "DrawableEdit.jLabel2.text_1")); // NOI18N
 
         specialCheck.setBackground(new java.awt.Color(255, 255, 255));
-        org.openide.awt.Mnemonics.setLocalizedText(specialCheck, org.openide.util.NbBundle.getMessage(DrawableEdit.class, "DrawableEdit.specialCheck.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(specialCheck, org.openide.util.NbBundle.getMessage(DrawableEdit.class, "DrawableEdit.specialCheck.text_1")); // NOI18N
         specialCheck.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 specialCheckMouseClicked(evt);
@@ -62,30 +63,43 @@ public class DrawableEdit extends javax.swing.JDialog implements WindowListener 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
-        org.openide.awt.Mnemonics.setLocalizedText(importLbl, org.openide.util.NbBundle.getMessage(DrawableEdit.class, "DrawableEdit.importLbl.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(importLbl, org.openide.util.NbBundle.getMessage(DrawableEdit.class, "DrawableEdit.importLbl.text_1")); // NOI18N
         importLbl.setEnabled(false);
 
-        importClassFld.setText(org.openide.util.NbBundle.getMessage(DrawableEdit.class, "DrawableEdit.importClassFld.text")); // NOI18N
+        importClassFld.setText(org.openide.util.NbBundle.getMessage(DrawableEdit.class, "DrawableEdit.importClassFld.text_1")); // NOI18N
         importClassFld.setEnabled(false);
+        importClassFld.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                importClassFldKeyReleased(evt);
+            }
+        });
 
-        org.openide.awt.Mnemonics.setLocalizedText(declarationLbl, org.openide.util.NbBundle.getMessage(DrawableEdit.class, "DrawableEdit.declarationLbl.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(declarationLbl, org.openide.util.NbBundle.getMessage(DrawableEdit.class, "DrawableEdit.declarationLbl.text_1")); // NOI18N
         declarationLbl.setEnabled(false);
 
-        classFld.setText(org.openide.util.NbBundle.getMessage(DrawableEdit.class, "DrawableEdit.classFld.text")); // NOI18N
+        classFld.setText(org.openide.util.NbBundle.getMessage(DrawableEdit.class, "DrawableEdit.classFld.text_1")); // NOI18N
         classFld.setEnabled(false);
 
-        org.openide.awt.Mnemonics.setLocalizedText(keyLbl, org.openide.util.NbBundle.getMessage(DrawableEdit.class, "DrawableEdit.keyLbl.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(keyLbl, org.openide.util.NbBundle.getMessage(DrawableEdit.class, "DrawableEdit.keyLbl.text_1")); // NOI18N
         keyLbl.setEnabled(false);
 
-        declarationFld.setText(org.openide.util.NbBundle.getMessage(DrawableEdit.class, "DrawableEdit.declarationFld.text")); // NOI18N
+        declarationFld.setText(org.openide.util.NbBundle.getMessage(DrawableEdit.class, "DrawableEdit.declarationFld.text_1")); // NOI18N
         declarationFld.setEnabled(false);
 
         messageLbl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/info.png"))); // NOI18N
-        org.openide.awt.Mnemonics.setLocalizedText(messageLbl, org.openide.util.NbBundle.getMessage(DrawableEdit.class, "DrawableEdit.messageLbl.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(messageLbl, org.openide.util.NbBundle.getMessage(DrawableEdit.class, "DrawableEdit.messageLbl.text_1")); // NOI18N
         messageLbl.setEnabled(false);
 
-        org.openide.awt.Mnemonics.setLocalizedText(breackLbl, org.openide.util.NbBundle.getMessage(DrawableEdit.class, "DrawableEdit.breackLbl.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(breackLbl, org.openide.util.NbBundle.getMessage(DrawableEdit.class, "DrawableEdit.breackLbl.text_1")); // NOI18N
         breackLbl.setEnabled(false);
+
+        hintImport.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "javafx.scene.image.Image", "javax.swing.ImageIcon" }));
+        hintImport.setEnabled(false);
+        hintImport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                hintImportActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -94,14 +108,12 @@ public class DrawableEdit extends javax.swing.JDialog implements WindowListener 
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(importLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(importClassFld))
                     .addComponent(messageLbl, javax.swing.GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(declarationLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(declarationLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(classFld, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
@@ -109,16 +121,25 @@ public class DrawableEdit extends javax.swing.JDialog implements WindowListener 
                                 .addGap(18, 18, 18)
                                 .addComponent(declarationFld)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(breackLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(breackLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(importLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(hintImport, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(importClassFld))))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(importLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(importClassFld))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(importClassFld)
+                        .addGap(4, 4, 4)
+                        .addComponent(hintImport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(importLbl))
                 .addGap(18, 18, 18)
                 .addComponent(declarationLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -130,19 +151,19 @@ public class DrawableEdit extends javax.swing.JDialog implements WindowListener 
                     .addComponent(classFld))
                 .addGap(18, 18, 18)
                 .addComponent(messageLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         cancelBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/clancel.png"))); // NOI18N
-        org.openide.awt.Mnemonics.setLocalizedText(cancelBtn, org.openide.util.NbBundle.getMessage(DrawableEdit.class, "DrawableEdit.cancelBtn.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(cancelBtn, org.openide.util.NbBundle.getMessage(DrawableEdit.class, "DrawableEdit.cancelBtn.text_1")); // NOI18N
         cancelBtn.setContentAreaFilled(false);
 
-        okBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/edit.png"))); // NOI18N
-        org.openide.awt.Mnemonics.setLocalizedText(okBtn, org.openide.util.NbBundle.getMessage(DrawableEdit.class, "DrawableEdit.okBtn.text")); // NOI18N
+        okBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/ok.png"))); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(okBtn, org.openide.util.NbBundle.getMessage(DrawableEdit.class, "DrawableEdit.okBtn.text_1")); // NOI18N
         okBtn.setContentAreaFilled(false);
 
         errorLbl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/err.png"))); // NOI18N
-        org.openide.awt.Mnemonics.setLocalizedText(errorLbl, org.openide.util.NbBundle.getMessage(DrawableEdit.class, "DrawableEdit.errorLbl.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(errorLbl, org.openide.util.NbBundle.getMessage(DrawableEdit.class, "DrawableEdit.errorLbl.text_1")); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -199,7 +220,7 @@ public class DrawableEdit extends javax.swing.JDialog implements WindowListener 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void specialCheckMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_specialCheckMouseClicked
+    public void specialCheckMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_specialCheckMouseClicked
         importClassFld.setEnabled(specialCheck.isSelected());
         declarationFld.setEnabled(specialCheck.isSelected());
         classFld.setEnabled(specialCheck.isSelected());
@@ -208,7 +229,26 @@ public class DrawableEdit extends javax.swing.JDialog implements WindowListener 
         importLbl.setEnabled(specialCheck.isSelected());
         breackLbl.setEnabled(specialCheck.isSelected());
         keyLbl.setEnabled(specialCheck.isSelected());
+        hintImport.setEnabled(specialCheck.isSelected());
     }//GEN-LAST:event_specialCheckMouseClicked
+
+    private void hintImportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hintImportActionPerformed
+        importClassFld.setText(hintImport.getSelectedItem().toString());
+        if (hintImport.getSelectedItem().toString().equals("javafx.scene.image.Image")) {
+            classFld.setText("Image");
+            declarationFld.setText("new Image(\"${value}\")");
+        } else if (hintImport.getSelectedItem().toString().equals("javax.swing.ImageIcon")) {
+            classFld.setText("ImageIcon");
+            declarationFld.setText("new ImageIcon(R.class.getResource(\"${value}\"))");
+        }
+    }//GEN-LAST:event_hintImportActionPerformed
+
+    private void importClassFldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_importClassFldKeyReleased
+        if (importClassFld.getText().contains(".")) {
+            String hint[] = importClassFld.getText().replace(".", ",").split(",");
+            classFld.setText(hint[hint.length - 1]);
+        }
+    }//GEN-LAST:event_importClassFldKeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel breackLbl;
@@ -218,6 +258,7 @@ public class DrawableEdit extends javax.swing.JDialog implements WindowListener 
     private javax.swing.JLabel declarationLbl;
     private javax.swing.JLabel errorLbl;
     private javax.swing.JTextField extensionFld;
+    private javax.swing.JComboBox<String> hintImport;
     private javax.swing.JTextField importClassFld;
     private javax.swing.JLabel importLbl;
     private javax.swing.JLabel jLabel2;
@@ -242,32 +283,32 @@ public class DrawableEdit extends javax.swing.JDialog implements WindowListener 
         return classFld;
     }
 
-    public void setClassFld(JTextField classFld) {
-        this.classFld = classFld;
+    public void setClassFld(String classFld) {
+        this.classFld.setText(classFld);
     }
 
     public JTextField getDeclarationFld() {
         return declarationFld;
     }
 
-    public void setDeclarationFld(JTextField declarationFld) {
-        this.declarationFld = declarationFld;
+    public void setDeclarationFld(String declarationFld) {
+        this.declarationFld.setText(declarationFld);
     }
 
     public JTextField getImportClassFld() {
         return importClassFld;
     }
 
-    public void setImportClassFld(JTextField importClassFld) {
-        this.importClassFld = importClassFld;
+    public void setImportClassFld(String importClassFld) {
+        this.importClassFld.setText(importClassFld);
     }
 
     public JTextField getExtensionFld() {
         return extensionFld;
     }
 
-    public void setExtensionFld(JTextField extensionFld) {
-        this.extensionFld = extensionFld;
+    public void setExtensionFld(String extensionFld) {
+        this.extensionFld.setText(extensionFld);
     }
     
     public void showError(){
@@ -303,8 +344,8 @@ public class DrawableEdit extends javax.swing.JDialog implements WindowListener 
     public void setSpecialCheck(JCheckBox specialCheck) {
         this.specialCheck = specialCheck;
     }
-    
-    
+
+
     @Override
     public void windowOpened(WindowEvent e) {
         
