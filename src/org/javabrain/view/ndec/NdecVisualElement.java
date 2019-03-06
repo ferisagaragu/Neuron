@@ -486,6 +486,8 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
         newRaw = new javax.swing.JMenuItem();
         editRaw = new javax.swing.JMenuItem();
         deleteRaw = new javax.swing.JMenuItem();
+        variableMenu = new javax.swing.JPopupMenu();
+        newVariable = new javax.swing.JMenuItem();
         jScrollPane5 = new javax.swing.JScrollPane();
         jPanel5 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
@@ -588,6 +590,14 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
             }
         });
         rawMenu.add(deleteRaw);
+
+        org.openide.awt.Mnemonics.setLocalizedText(newVariable, org.openide.util.NbBundle.getMessage(NdecVisualElement.class, "NdecVisualElement.newVariable.text")); // NOI18N
+        newVariable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newVariableActionPerformed(evt);
+            }
+        });
+        variableMenu.add(newVariable);
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -807,7 +817,7 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
     }// </editor-fold>//GEN-END:initComponents
 
     private void dynamicLstMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dynamicLstMouseClicked
-        
+        variableMenu.show(dynamicLst, evt.getX(), evt.getY());
     }//GEN-LAST:event_dynamicLstMouseClicked
 
     private void syncBnt4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_syncBnt4ActionPerformed
@@ -926,6 +936,10 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
         colorDec.showColor();
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void newVariableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newVariableActionPerformed
+        new Variable(null, true).setVisible(true);
+    }//GEN-LAST:event_newVariableActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem deleteDrawableMenu;
     private javax.swing.JMenuItem deleteLayoutMenu;
@@ -957,9 +971,11 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
     private javax.swing.JMenuItem newDrawableMenu;
     private javax.swing.JMenuItem newLayoutMenu;
     private javax.swing.JMenuItem newRaw;
+    private javax.swing.JMenuItem newVariable;
     private javax.swing.JList<String> rawLts;
     private javax.swing.JPopupMenu rawMenu;
     private javax.swing.JButton syncBnt4;
+    private javax.swing.JPopupMenu variableMenu;
     // End of variables declaration//GEN-END:variables
     
     @Override

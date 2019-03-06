@@ -1,5 +1,6 @@
 package org.javabrain.view;
 
+import org.javabrain.view.*;
 import org.javabrain.controller.NeuronControl;
 
 /**

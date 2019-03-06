@@ -45,7 +45,7 @@ public class ResourcesC {
         
         ResourcesC.neuron = neuron;
         neuron.clear();
-        neuron.info(R.string.start_msg);
+        neuron.info("");
         
         META_INF = new File(folderName.getPath() + "\\src\\META-INF");
         RES = new File(folderName.getPath() + "\\src\\res");
@@ -72,7 +72,7 @@ public class ResourcesC {
             createValueDeclaration();
             createR();
             
-            neuron.info(R.string.start_folder.replace("${val}", folderName.getName()));
+            neuron.info("");
             onAction();
             
         } catch (Exception e) {

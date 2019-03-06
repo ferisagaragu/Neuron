@@ -22,13 +22,14 @@ import org.openide.util.NbBundle.Messages;
 public final class OuputNeuronTopComponent extends TopComponent {
 
     private DefaultListModel dlm;
+    private NeuronControl nc;
     
     public OuputNeuronTopComponent() {
         initComponents();
         setName(Bundle.CTL_OuputNeuronTopComponent());
         setToolTipText(Bundle.HINT_OuputNeuronTopComponent());
         putClientProperty(TopComponent.PROP_CLOSING_DISABLED, Boolean.TRUE);
-        NeuronControl nc =  NeuronControl.newInstance();
+        nc =  NeuronControl.newInstance();
         nc.setOutput(this);
         dlm = new DefaultListModel();
     }
@@ -104,6 +105,7 @@ public final class OuputNeuronTopComponent extends TopComponent {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         clear();
+        nc.getActionsView().startBnt.setEnabled(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
