@@ -50,6 +50,8 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
     
     private ColorDec colorDec = new ColorDec(null, true);
     
+    private VariableNew variableNew = new VariableNew(null, true);
+    
     public NdecVisualElement(Lookup lkp) throws IOException {
         obj = lkp.lookup(NdecDataObject.class);
         assert obj != null;
@@ -84,6 +86,10 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
         editRaw.setBackground(Color.white);
         deleteRaw.setText("<html><b style=\"color:red;\">Drop raw</b></html>");
         deleteRaw.setBackground(Color.white);
+        
+        variableMenu.setBackground(Color.white);
+        newVariable.setText("<html><b style=\"color:green;\">New variable</b></html>");
+        newVariable.setBackground(Color.white);
         
         drawableNew.getOkBtn().addActionListener(new ActionListener() {
             @Override
@@ -309,7 +315,8 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
             }
         });
         
-                rawNew.getOkBtn().addActionListener(new ActionListener() {
+        
+        rawNew.getOkBtn().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (rawNew.getSpecialCheck().isSelected()) {
@@ -432,6 +439,7 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
             }
         });
         
+        
         colorDec.getOkBtn().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -461,6 +469,21 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
                 }
                 
                 colorDec.hideColor();
+            }
+        });
+        
+        
+        variableNew.getOkBtn().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                var.addElement(new ListEntry(textType(variableNew.getTypeCombo().getSelectedItem().toString(), variableNew.getNameFld().getText()) , iconType(variableNew.getTypeCombo().getSelectedItem().toString())));
+
+                xml.getDocument().getElementsByTagName("value").item(0).appendChild(xml.getDocument().createElement(variableNew.getNameFld().getText()));
+                xml.getDocument().getElementsByTagName(variableNew.getNameFld().getText()).item(0).setTextContent("0");
+                ((Element) xml.getDocument().getElementsByTagName(variableNew.getNameFld().getText()).item(0)).setAttribute("type", "");
+                xml.getDocument().getElementsByTagName(variableNew.getNameFld().getText()).item(0).getAttributes().getNamedItem("type").setTextContent(variableNew.getTypeCombo().getSelectedItem().toString());
+
+                variableNew.setVisible(false);
             }
         });
         
@@ -591,6 +614,7 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
         });
         rawMenu.add(deleteRaw);
 
+        newVariable.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/new.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(newVariable, org.openide.util.NbBundle.getMessage(NdecVisualElement.class, "NdecVisualElement.newVariable.text")); // NOI18N
         newVariable.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -697,8 +721,8 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
         dynamicLst.setCellRenderer(new ListEntryCellRenderer());
         dynamicLst.setSelectionBackground(new java.awt.Color(204, 204, 204));
         dynamicLst.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                dynamicLstMouseClicked(evt);
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                dynamicLstMousePressed(evt);
             }
         });
         jScrollPane1.setViewportView(dynamicLst);
@@ -815,10 +839,6 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
             .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 902, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void dynamicLstMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dynamicLstMouseClicked
-        variableMenu.show(dynamicLst, evt.getX(), evt.getY());
-    }//GEN-LAST:event_dynamicLstMouseClicked
 
     private void syncBnt4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_syncBnt4ActionPerformed
         File file = new File(obj.getPrimaryFile().getPath());
@@ -937,8 +957,12 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void newVariableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newVariableActionPerformed
-        new Variable(null, true).setVisible(true);
+        variableNew.setVisible(true);
     }//GEN-LAST:event_newVariableActionPerformed
+
+    private void dynamicLstMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dynamicLstMousePressed
+        variableMenu.show(dynamicLst, evt.getX(), evt.getY());
+    }//GEN-LAST:event_dynamicLstMousePressed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem deleteDrawableMenu;
@@ -1016,74 +1040,9 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
                 addDrawables(xml.getElementsByTagName("drawable").item(0).getChildNodes()); 
                 addLayout(xml.getElementsByTagName("layout").item(0).getChildNodes()); 
                 addRaw(xml.getElementsByTagName("raw").item(0).getChildNodes()); 
-                
-                NodeList list = xml.getElementsByTagName("value").item(0).getChildNodes();
-                var.clear();
-
-                for (int i = 0; i < list.getLength(); i++) {
-                    if (!list.item(i).getNodeName().equals("#text") && !list.item(i).getNodeName().equals("style")
-                            && !list.item(i).getNodeName().equals("bool") && !list.item(i).getNodeName().equals("color")
-                            && !list.item(i).getNodeName().equals("integer") && !list.item(i).getNodeName().equals("string")) {
-                        if (list.item(i).getAttributes().getNamedItem("type") != null) {
-                            switch (list.item(i).getAttributes().getNamedItem("type").getTextContent()) {
-
-                                case "byte": {
-                                    var.addElement(new ListEntry("<html><p style=\"color:#009688;\">" + list.item(i).getNodeName() + "</p></html>", new ImageIcon(getClass().getResource("/res/byte.png"))));
-                                }
-                                break;
-
-                                case "short": {
-                                    var.addElement(new ListEntry("<html><p style=\"color:#009688;\">" + list.item(i).getNodeName() + "</p></html>", new ImageIcon(getClass().getResource("/res/short.png"))));
-                                }
-                                break;
-
-                                case "int": {
-                                    var.addElement(new ListEntry("<html><p style=\"color:#009688;\">" + list.item(i).getNodeName() + "</p></html>", new ImageIcon(getClass().getResource("/res/integerd.png"))));
-                                }
-                                break;
-
-                                case "long": {
-                                    var.addElement(new ListEntry("<html><p style=\"color:#009688;\">" + list.item(i).getNodeName() + "</p></html>", new ImageIcon(getClass().getResource("/res/long.png"))));
-                                }
-                                break;
-
-                                case "float": {
-                                    var.addElement(new ListEntry("<html><p style=\"color:#009688;\">" + list.item(i).getNodeName() + "</p></html>", new ImageIcon(getClass().getResource("/res/float.png"))));
-                                }
-                                break;
-
-                                case "double": {
-                                    var.addElement(new ListEntry("<html><p style=\"color:#009688;\">" + list.item(i).getNodeName() + "</p></html>", new ImageIcon(getClass().getResource("/res/double.png"))));
-                                }
-                                break;
-
-                                case "boolean": {
-                                    var.addElement(new ListEntry("<html><p style=\"color:#009688;\">" + list.item(i).getNodeName() + "</p></html>", new ImageIcon(getClass().getResource("/res/boold.png"))));
-                                }
-                                break;
-
-                                case "char": {
-                                    var.addElement(new ListEntry("<html><p style=\"color:#009688;\">" + list.item(i).getNodeName() + "</p></html>", new ImageIcon(getClass().getResource("/res/char.png"))));
-                                }
-                                break;
-
-                                case "String": {
-                                    var.addElement(new ListEntry("<html><b style=\"color:#009688;\">" + list.item(i).getNodeName() + "</b>  <b style=\"color:#0D47A1;\">{String}</b></html>", new ImageIcon(getClass().getResource("/res/stringd.png"))));
-                                }
-                                break;
-                            }
-                        } else {
-                            var.addElement(new ListEntry(list.item(i).getNodeName(), new ImageIcon(getClass().getResource("/res/default.png"))));
-                        }
-
-                    }
-                }
-                
-                dynamicLst.setModel(var);
-            } else {
-                var.addElement("<html><p style=\"color:red;\">Value no exist in NDEC file</p></html>");
-                dynamicLst.setModel(var);
+                addVariable(xml.getElementsByTagName("value").item(0).getChildNodes());
             }
+            
         } catch (IOException ex) {
             Exceptions.printStackTrace(ex);
         }
@@ -1209,4 +1168,111 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
         rawLts.setModel(raw);
         
     }
+    
+    private void addVariable(NodeList list) {
+        
+        var.clear();
+
+        for (int i = 0; i < list.getLength(); i++) {
+            if (!list.item(i).getNodeName().equals("#text") && !list.item(i).getNodeName().equals("style")
+                    && !list.item(i).getNodeName().equals("bool") && !list.item(i).getNodeName().equals("color")
+                    && !list.item(i).getNodeName().equals("integer") && !list.item(i).getNodeName().equals("string")) {
+                if (list.item(i).getAttributes().getNamedItem("type") != null){
+                    String type = list.item(i).getAttributes().getNamedItem("type").getTextContent();
+                    var.addElement(new ListEntry(textType(type, list.item(i).getNodeName()), iconType(type)));
+                } else {
+                    var.addElement(new ListEntry(textType("", list.item(i).getNodeName()), iconType("")));
+                }
+            }
+        }
+
+        dynamicLst.setModel(var);
+    }
+    
+    private String textType(String type ,String typeText) {
+        switch (type) {
+
+            case "byte": {
+                return "<html><b style=\"color:#009688;\">" + typeText + "<b style=\"color:#0D47A1;\">  {byte}</b></b></html>";
+            }
+
+            case "short": {
+                return "<html><b style=\"color:#009688;\">" + typeText + "<b style=\"color:#0D47A1;\">  {short}</b></b></html>";
+            }
+
+            case "int": {
+                return "<html><b style=\"color:#009688;\">" + typeText + "<b style=\"color:#0D47A1;\">  {int}</b></b></html>";
+            }
+
+            case "long": {
+                return "<html><b style=\"color:#009688;\">" + typeText + "<b style=\"color:#0D47A1;\">  {long}</b></b></html>";
+            }
+
+            case "float": {
+                return "<html><b style=\"color:#009688;\">" + typeText + "<b style=\"color:#0D47A1;\">  {float}</b></b></html>";
+            }
+
+            case "double": {
+                return "<html><b style=\"color:#009688;\">" + typeText + "<b style=\"color:#0D47A1;\">  {double}</b></b></html>";
+            }
+
+            case "boolean": {
+                return "<html><b style=\"color:#009688;\">" + typeText + "<b style=\"color:#0D47A1;\">  {boolean}</b></b></html>";
+            }
+
+            case "char": {
+                return "<html><b style=\"color:#009688;\">" + typeText + "<b style=\"color:#0D47A1;\">  {char}</b></b></html>";
+            }
+
+            case "String": {
+                return "<html><b style=\"color:#009688;\">" + typeText + "<b style=\"color:#0D47A1;\">  {String}</b></b></html>";
+            }
+        }
+
+        return "<html><b style=\"color:#757575;\">" + typeText + "<b style=\"color:#0D47A1;\">  {undefined}</b></b></html>";
+    }
+    
+    private ImageIcon iconType(String type) {
+        switch (type) {
+
+            case "byte": {
+                return new ImageIcon(getClass().getResource("/res/byte.png"));
+            }
+            
+            case "short": {
+                return new ImageIcon(getClass().getResource("/res/short.png"));
+            }
+
+            case "int": {
+                return new ImageIcon(getClass().getResource("/res/integerd.png"));
+            }
+
+            case "long": {
+                return new ImageIcon(getClass().getResource("/res/long.png"));
+            }
+
+            case "float": {
+                return new ImageIcon(getClass().getResource("/res/float.png"));
+            }
+
+            case "double": {
+               return new ImageIcon(getClass().getResource("/res/double.png"));
+            }
+
+            case "boolean": {
+                return new ImageIcon(getClass().getResource("/res/boold.png"));
+            }
+
+            case "char": {
+                return new ImageIcon(getClass().getResource("/res/char.png"));
+            }
+
+            case "String": {
+                return new ImageIcon(getClass().getResource("/res/stringd.png"));
+            }
+        }
+        
+        return new ImageIcon(getClass().getResource("/res/default.png"));
+    }
+    
 }
