@@ -16,6 +16,9 @@
     <fileobject name="C:|Users|Fernando García|aaaaa.ndec">
         <attr name="requireProject" boolvalue="false"/>
     </fileobject>
+    <fileobject name="C:|Users|Fernando García|archivo.java">
+        <attr name="requireProject" boolvalue="false"/>
+    </fileobject>
     <fileobject name="C:|Users|Fernando García|as.ndec">
         <attr name="requireProject" boolvalue="false"/>
     </fileobject>

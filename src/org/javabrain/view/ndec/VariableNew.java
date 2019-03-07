@@ -136,6 +136,27 @@ public class VariableNew extends javax.swing.JDialog {
         this.typeCombo = typeCombo;
     }
     
+    boolean isEdit;
+    
+    public boolean isEdit() {
+        return isEdit;
+    }
+    
+    public void showVariable(boolean isEdit) {
+        if (isEdit) {
+            okBtn.setIcon(new ImageIcon(this.getClass().getResource("/res/edit.png")));
+            this.isEdit = isEdit;
+            setTitle("Edit variable");
+            setVisible(true);
+        } else {
+            typeCombo.setSelectedIndex(0);
+            nameFld.setText("");
+            okBtn.setIcon(new ImageIcon(this.getClass().getResource("/res/ok.png")));
+            this.isEdit = isEdit;
+            setTitle("New variable");
+            setVisible(true);
+        }
+    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelBtn;

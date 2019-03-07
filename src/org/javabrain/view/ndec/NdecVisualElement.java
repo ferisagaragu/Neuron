@@ -90,6 +90,10 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
         variableMenu.setBackground(Color.white);
         newVariable.setText("<html><b style=\"color:green;\">New variable</b></html>");
         newVariable.setBackground(Color.white);
+        editVariable.setText("<html><b style=\"color:orange;\">Edit variable</b></html>");
+        editVariable.setBackground(Color.white);
+        deleteVariable.setText("<html><b style=\"color:red;\">Drop variable</b></html>");
+        deleteVariable.setBackground(Color.white);
         
         drawableNew.getOkBtn().addActionListener(new ActionListener() {
             @Override
@@ -476,14 +480,26 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
         variableNew.getOkBtn().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                var.addElement(new ListEntry(textType(variableNew.getTypeCombo().getSelectedItem().toString(), variableNew.getNameFld().getText()) , iconType(variableNew.getTypeCombo().getSelectedItem().toString())));
+                if (!variableNew.isEdit()) {
+                    var.addElement(new ListEntry(textType(variableNew.getTypeCombo().getSelectedItem().toString(), variableNew.getNameFld().getText()) , iconType(variableNew.getTypeCombo().getSelectedItem().toString())));
 
-                xml.getDocument().getElementsByTagName("value").item(0).appendChild(xml.getDocument().createElement(variableNew.getNameFld().getText()));
-                xml.getDocument().getElementsByTagName(variableNew.getNameFld().getText()).item(0).setTextContent("0");
-                ((Element) xml.getDocument().getElementsByTagName(variableNew.getNameFld().getText()).item(0)).setAttribute("type", "");
-                xml.getDocument().getElementsByTagName(variableNew.getNameFld().getText()).item(0).getAttributes().getNamedItem("type").setTextContent(variableNew.getTypeCombo().getSelectedItem().toString());
+                    xml.getDocument().getElementsByTagName("value").item(0).appendChild(xml.getDocument().createElement(variableNew.getNameFld().getText()));
+                    xml.getDocument().getElementsByTagName(variableNew.getNameFld().getText()).item(0).setTextContent("0");
+                    ((Element) xml.getDocument().getElementsByTagName(variableNew.getNameFld().getText()).item(0)).setAttribute("type", "");
+                    xml.getDocument().getElementsByTagName(variableNew.getNameFld().getText()).item(0).getAttributes().getNamedItem("type").setTextContent(variableNew.getTypeCombo().getSelectedItem().toString());
 
-                variableNew.setVisible(false);
+                    variableNew.setVisible(false);
+                } else {
+                    var.set(dynamicLst.getSelectedIndex(), new ListEntry(textType(variableNew.getTypeCombo().getSelectedItem().toString(), variableNew.getNameFld().getText()) , iconType(variableNew.getTypeCombo().getSelectedItem().toString())));
+                    
+                    xml.renameNode(Xml.clearListNode(xml.getDocument().getElementsByTagName("value").item(0).getChildNodes()).item(dynamicLst.getSelectedIndex() + 5).getNodeName(), variableNew.getNameFld().getText());
+                    xml.getDocument().getElementsByTagName(variableNew.getNameFld().getText()).item(0).setTextContent("0");
+                    ((Element) xml.getDocument().getElementsByTagName(variableNew.getNameFld().getText()).item(0)).setAttribute("type", "");
+                    xml.getDocument().getElementsByTagName(variableNew.getNameFld().getText()).item(0).getAttributes().getNamedItem("type").setTextContent(variableNew.getTypeCombo().getSelectedItem().toString());
+
+                    variableNew.setVisible(false);
+                }
+                
             }
         });
         
@@ -511,6 +527,8 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
         deleteRaw = new javax.swing.JMenuItem();
         variableMenu = new javax.swing.JPopupMenu();
         newVariable = new javax.swing.JMenuItem();
+        editVariable = new javax.swing.JMenuItem();
+        deleteVariable = new javax.swing.JMenuItem();
         jScrollPane5 = new javax.swing.JScrollPane();
         jPanel5 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
@@ -622,6 +640,24 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
             }
         });
         variableMenu.add(newVariable);
+
+        editVariable.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/edit.png"))); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(editVariable, org.openide.util.NbBundle.getMessage(NdecVisualElement.class, "NdecVisualElement.editVariable.text")); // NOI18N
+        editVariable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editVariableActionPerformed(evt);
+            }
+        });
+        variableMenu.add(editVariable);
+
+        deleteVariable.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/delete.png"))); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(deleteVariable, org.openide.util.NbBundle.getMessage(NdecVisualElement.class, "NdecVisualElement.deleteVariable.text")); // NOI18N
+        deleteVariable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteVariableActionPerformed(evt);
+            }
+        });
+        variableMenu.add(deleteVariable);
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -957,23 +993,40 @@ public final class NdecVisualElement extends JPanel implements MultiViewElement 
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void newVariableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newVariableActionPerformed
-        variableNew.setVisible(true);
+        variableNew.showVariable(false);
     }//GEN-LAST:event_newVariableActionPerformed
 
     private void dynamicLstMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dynamicLstMousePressed
         variableMenu.show(dynamicLst, evt.getX(), evt.getY());
     }//GEN-LAST:event_dynamicLstMousePressed
 
+    private void editVariableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editVariableActionPerformed
+        variableNew.getNameFld().setText(Xml.clearListNode(xml.getDocument().getElementsByTagName("value").item(0).getChildNodes()).item(dynamicLst.getSelectedIndex() + 5).getNodeName());
+        if (Xml.clearListNode(xml.getDocument().getElementsByTagName("value").item(0).getChildNodes()).item(dynamicLst.getSelectedIndex() + 5).getAttributes().getNamedItem("type") != null) {
+           variableNew.getTypeCombo().setSelectedItem(Xml.clearListNode(xml.getDocument().getElementsByTagName("value").item(0).getChildNodes()).item(dynamicLst.getSelectedIndex() + 5).getAttributes().getNamedItem("type").getTextContent()); 
+        }
+        variableNew.showVariable(true);
+    }//GEN-LAST:event_editVariableActionPerformed
+
+    private void deleteVariableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteVariableActionPerformed
+        Element element = (Element) xml.getDocument().getElementsByTagName(Xml.clearListNode(xml.getDocument().getElementsByTagName("value").item(0).getChildNodes()).item(dynamicLst.getSelectedIndex() + 5).getNodeName()).item(0);
+        Node parent = element.getParentNode();
+        parent.removeChild(element);
+        var.remove(dynamicLst.getSelectedIndex());
+    }//GEN-LAST:event_deleteVariableActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem deleteDrawableMenu;
     private javax.swing.JMenuItem deleteLayoutMenu;
     private javax.swing.JMenuItem deleteRaw;
+    private javax.swing.JMenuItem deleteVariable;
     private javax.swing.JList<String> drawableLts;
     private javax.swing.JPopupMenu drawableMenu;
     private javax.swing.JList<String> dynamicLst;
     private javax.swing.JMenuItem editDrawableMenu;
     private javax.swing.JMenuItem editLayoutMenu;
     private javax.swing.JMenuItem editRaw;
+    private javax.swing.JMenuItem editVariable;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;

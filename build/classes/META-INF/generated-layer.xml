@@ -520,4 +520,50 @@
             </folder>
         </folder>
     </folder>
+    <folder name="org-netbeans-modules-java-hints">
+        <folder name="code-hints">
+            <folder name="org-javabrain-hint-NotType.class">
+                <folder name="org-netbeans-spi-java-hints-Hint.annotation">
+                    <!--org.javabrain.hint.NotType-->
+                    <attr
+                        bundlevalue="org.javabrain.hint.Bundle#DN_NotType" name="displayName"/>
+                    <attr
+                        bundlevalue="org.javabrain.hint.Bundle#DESC_NotType" name="description"/>
+                    <attr name="category" stringvalue="general"/>
+                </folder>
+                <!--org.javabrain.hint.NotType-->
+                <folder name="computeWarning.method">
+                    <folder name="org-netbeans-spi-java-hints-TriggerPattern.annotation">
+                        <folder name="constraints">
+                            <folder name="item0">
+                                <folder name="org-netbeans-spi-java-hints-ConstraintVariableType.annotation">
+                                    <!--org.javabrain.hint.NotType.computeWarning(org.netbeans.spi.java.hints.HintContext)-->
+                                    <attr name="variable" stringvalue="$str"/>
+                                    <attr name="type" stringvalue="java.lang.String"/>
+                                </folder>
+                                <!--org.javabrain.hint.NotType.computeWarning(org.netbeans.spi.java.hints.HintContext)-->
+                            </folder>
+                            <!--org.javabrain.hint.NotType.computeWarning(org.netbeans.spi.java.hints.HintContext)-->
+                        </folder>
+                        <!--org.javabrain.hint.NotType.computeWarning(org.netbeans.spi.java.hints.HintContext)-->
+                        <attr name="value" stringvalue="$str.equals(&quot;hola&quot;)"/>
+                    </folder>
+                    <!--org.javabrain.hint.NotType.computeWarning(org.netbeans.spi.java.hints.HintContext)-->
+                </folder>
+            </folder>
+        </folder>
+    </folder>
+    <folder name="OptionsDialog">
+        <folder name="Keywords">
+            <file name="org.javabrain.hint.NotType">
+                <!--org.javabrain.hint.NotType-->
+                <attr name="location" stringvalue="Editor"/>
+                <attr
+                    bundlevalue="org.netbeans.modules.options.editor.Bundle#CTL_Hints_DisplayName" name="tabTitle"/>
+                <attr bundlevalue="org.javabrain.hint.Bundle#DN_NotType" name="keywords-1"/>
+                <attr
+                    bundlevalue="org.javabrain.hint.Bundle#DESC_NotType" name="keywords-2"/>
+            </file>
+        </folder>
+    </folder>
 </filesystem>
